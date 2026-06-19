@@ -335,6 +335,12 @@ HOME_BODY = '''
       <h2>Pick your upgrade path.</h2>
       <p>Start with the motor swap. Add a controller, batteries, and AC kit as your goals grow.</p>
     </div>
+    <div class="product-photos">
+      <a href="/motor-upgrades/"><img src="/assets/photos/product-motor.jpg" alt="High-output golf cart motor — White Lightning Motors" loading="lazy"><span>High-Output Motor</span></a>
+      <a href="/motor-upgrades/#solenoids"><img src="/assets/photos/product-solenoid.jpg" alt="Heavy-duty 36V/48V solenoid for golf cart performance builds" loading="lazy"><span>HD Solenoid</span></a>
+      <a href="/lithium-batteries/"><img src="/assets/photos/product-lithium.jpg" alt="Bolt Energy lithium iron phosphate golf cart battery pack" loading="lazy"><span>Bolt Energy Lithium</span></a>
+      <a href="/controllers/"><img src="/assets/photos/product-controller.jpg" alt="Navitas DC TSX programmable golf cart controller" loading="lazy"><span>Navitas Controller</span></a>
+    </div>
     <div class="products">
       <a class="product" href="/motor-upgrades/" style="text-decoration:none;color:inherit;display:block">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
@@ -1422,13 +1428,13 @@ def write_llms_txt():
     print("  wrote site/llms.txt")
 
 HERO_IMAGES = {
-    "/motor-upgrades/": ("/assets/photos/product-lineup.jpg","White Lightning Motors product lineup — high-output motor, heavy-duty solenoid, Bolt Energy lithium battery, Navitas controller"),
+    "/motor-upgrades/": ("/assets/photos/product-motor.jpg","White Lightning Motors high-output golf cart motor with WLM label — close-up product photo"),
     "/motor-upgrades/ezgo/": ("/assets/photos/hero-cart.jpg","EZGO performance golf cart upgrade — black 4-seater with lift kit and custom motor build"),
     "/motor-upgrades/club-car/": ("/assets/photos/cart-glow.jpg","Lifted custom golf cart with performance motor build by White Lightning Motors"),
     "/motor-upgrades/yamaha/": ("/assets/photos/motor-install.jpg","Installed Yamaha-compatible White Lightning high-output motor"),
     "/motor-upgrades/icon/": ("/assets/photos/hero-cart.jpg","Performance ICON golf cart with White Lightning motor upgrade"),
-    "/lithium-batteries/": ("/assets/photos/product-lineup.jpg","Bolt Energy lithium golf cart battery — installed by authorized dealer White Lightning Motors"),
-    "/controllers/": ("/assets/photos/motor-3d.png","Performance golf cart motor and controller — White Lightning Motors"),
+    "/lithium-batteries/": ("/assets/photos/product-lithium.jpg","Bolt Energy 48V lithium iron phosphate golf cart battery — green LiFePO4 pack"),
+    "/controllers/": ("/assets/photos/product-controller.jpg","Navitas DC TSX programmable golf cart controller with throttle and contactor"),
     "/ac-conversion/": ("/assets/photos/motor-install.jpg","Performance AC motor installed on a customer golf cart"),
     "/how-it-works/": ("/assets/photos/truck-back.jpg","White Lightning Motors wrapped F-150 shop truck — rear view with phone number 832-832-1993"),
     "/about/": ("/assets/photos/truck-side.jpg","Charlie's White Lightning Motors wrapped Ford F-150 shop truck — driver-side view"),
