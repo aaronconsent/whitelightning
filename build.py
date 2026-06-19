@@ -501,6 +501,14 @@ MU_BODY = f'''
   </div>
 </section>
 
+<section style="padding:0">
+  <div class="gallery">
+    <figure><img src="/assets/photos/install-headon.jpg" alt="White Lightning Motors high-output motor installed under a customer golf cart — head-on view with WLM sticker visible" loading="lazy"><figcaption>Installed in the customer's cart — every motor wears the WLM sticker.</figcaption></figure>
+    <figure><img src="/assets/photos/install-wide.jpg" alt="Customer cart with White Lightning Motors performance motor installed — wide undercarriage shot" loading="lazy"><figcaption>The view from underneath after a 4-bolt swap.</figcaption></figure>
+    <figure><img src="/assets/photos/motor-install.jpg" alt="Installed White Lightning Motors high-output motor on a customer's cart" loading="lazy"><figcaption>Bench-built. Customer-installed. Texas-shipped.</figcaption></figure>
+  </div>
+</section>
+
 <section id="solenoids">
   <div class="container">
     <div class="section-head">
@@ -1451,7 +1459,7 @@ def write_llms_txt():
     print("  wrote site/llms.txt")
 
 HERO_IMAGES = {
-    "/motor-upgrades/": ("/assets/photos/product-motor.jpg","White Lightning Motors high-output golf cart motor with WLM label — close-up product photo"),
+    "/motor-upgrades/": ("/assets/photos/install-headon.jpg","White Lightning Motors high-output motor installed in a customer cart — head-on under-cart view of the WLM-branded motor"),
     "/motor-upgrades/ezgo/": ("/assets/photos/hero-cart.jpg","EZGO performance golf cart upgrade — black 4-seater with lift kit and custom motor build"),
     "/motor-upgrades/club-car/": ("/assets/photos/cart-glow.jpg","Lifted custom golf cart with performance motor build by White Lightning Motors"),
     "/motor-upgrades/yamaha/": ("/assets/photos/motor-install.jpg","Installed Yamaha-compatible White Lightning high-output motor"),
