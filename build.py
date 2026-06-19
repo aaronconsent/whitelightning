@@ -227,6 +227,8 @@ def render(page):
         body = inject_hero_image(body, page["hero_image"], page.get("hero_alt",""))
     html += body
     html += footer()
+    # Inject demo script right before </body>
+    html = html.replace('</body>', '<script src="/assets/speed-demo.js" defer></script>\n</body>', 1)
     return html
 
 def write(page):

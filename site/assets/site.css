@@ -443,6 +443,279 @@ footer.site a{color:var(--ink-soft);display:block;padding:4px 0}
 footer.site a:hover{color:var(--bolt);text-decoration:none}
 footer.site .legal{border-top:1px solid var(--rule);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
+/* =====================================================
+   SPEED DEMO WIDGET + FULL-SCREEN POV EXPERIENCE
+   ===================================================== */
+
+/* --- Side widget --- */
+.wlm-speed-widget{
+  position:fixed;right:0;top:50%;transform:translateY(-50%);
+  z-index:9000;cursor:pointer;
+  background:linear-gradient(180deg,#00c2ff,#1a8bff);
+  color:#001018;border:none;
+  padding:18px 10px;border-radius:14px 0 0 14px;
+  font:inherit;font-weight:900;letter-spacing:.18em;
+  box-shadow:0 18px 50px -10px rgba(0,194,255,.55), 0 0 0 1px rgba(255,255,255,.2) inset;
+  animation:wlmPulse 2.4s ease-in-out infinite;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.wlm-speed-widget:hover{transform:translateY(-50%) translateX(-3px) scale(1.04);box-shadow:0 24px 70px -10px rgba(0,194,255,.8)}
+.wlm-speed-widget.seen{animation:none;opacity:.85}
+.wlm-speed-widget-inner{display:flex;flex-direction:column;align-items:center;gap:6px}
+.wlm-speed-widget .wlm-bolt{font-size:22px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.6))}
+.wlm-speed-widget .wlm-w-text{
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  font-size:13px;font-weight:900;text-transform:uppercase;
+}
+.wlm-speed-widget .wlm-w-sub{font-size:9px;font-weight:700;opacity:.7;letter-spacing:.16em;writing-mode:vertical-rl;transform:rotate(180deg)}
+@keyframes wlmPulse{
+  0%,100%{box-shadow:0 18px 50px -10px rgba(0,194,255,.55), 0 0 0 0 rgba(0,194,255,.4)}
+  50%    {box-shadow:0 18px 50px -10px rgba(0,194,255,.55), 0 0 0 14px rgba(0,194,255,0)}
+}
+@media (max-width:760px){
+  .wlm-speed-widget{top:auto;bottom:20px;right:20px;transform:none;border-radius:14px;padding:12px 14px;flex-direction:row}
+  .wlm-speed-widget-inner{flex-direction:row;gap:8px}
+  .wlm-speed-widget .wlm-w-text,.wlm-speed-widget .wlm-w-sub{writing-mode:initial;transform:none}
+  .wlm-speed-widget:hover{transform:translateY(-2px) scale(1.03)}
+}
+
+/* --- Overlay --- */
+.wlm-speed-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:#000;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+}
+.wlm-speed-overlay.on{opacity:1;pointer-events:auto}
+.wlm-stage{
+  position:absolute;inset:-10px;overflow:hidden;
+  background:radial-gradient(ellipse at center bottom, #1a1f2c 0%, #060812 70%);
+  transition:transform .04s linear;
+}
+.wlm-sky{
+  position:absolute;inset:0 0 50% 0;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(0,194,255,.18), transparent 60%),
+    linear-gradient(180deg,#0a1322 0%, #131a30 60%, #1a1f2c 100%);
+}
+.wlm-sun{
+  position:absolute;left:50%;top:25%;width:220px;height:220px;margin-left:-110px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,200,90,.55), rgba(255,140,40,.15) 50%, transparent 70%);
+  filter:blur(2px);
+}
+.wlm-mountains{
+  position:absolute;left:0;right:0;bottom:48%;height:140px;
+  background:
+    linear-gradient(180deg, #0a0e1a 0%, transparent 100%),
+    conic-gradient(from -90deg at 20% 100%, transparent 250deg, #131927 250deg, #131927 290deg, transparent 290deg),
+    conic-gradient(from -90deg at 50% 100%, transparent 245deg, #0e1320 245deg, #0e1320 295deg, transparent 295deg),
+    conic-gradient(from -90deg at 80% 100%, transparent 250deg, #131927 250deg, #131927 290deg, transparent 290deg);
+}
+.wlm-road-wrap{
+  position:absolute;left:0;right:0;bottom:0;height:55%;
+  perspective:600px;perspective-origin:50% 0%;
+}
+.wlm-road{
+  position:absolute;inset:0;
+  transform:rotateX(58deg) translateZ(0);
+  transform-origin:50% 0;
+  background:
+    linear-gradient(180deg,#1a1d27 0%, #0a0c12 100%);
+}
+.wlm-road-lines{
+  position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(180deg, transparent 0, transparent 60px, #fff 60px, #fff 100px),
+    linear-gradient(90deg, transparent 0, transparent 47%, #fff 47%, #fff 47.5%, transparent 47.5%, transparent 52.5%, #fff 52.5%, #fff 53%, transparent 53%);
+  background-size:auto, 100% 100%;
+  animation:wlmDash 1.2s linear infinite;
+  mask-image:linear-gradient(180deg, transparent 0%, #000 18%, #000 100%);
+  opacity:.55;
+}
+@keyframes wlmDash{
+  from{background-position-y:0}
+  to  {background-position-y:160px}
+}
+/* speed up dashed lines proportionally to phase via JS variable later if needed */
+.wlm-scenery{position:absolute;inset:0;pointer-events:none}
+.wlm-tree, .wlm-house{
+  position:absolute;
+  background:#0a0d14;
+  border-top:2px solid #1c2030;
+}
+.wlm-tree{
+  border-radius:50% 50% 10% 10% / 70% 70% 30% 30%;
+  background:linear-gradient(180deg,#0e1422,#070a12);
+  box-shadow:inset 0 -6px 12px rgba(0,0,0,.6);
+}
+.wlm-house{
+  border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,#11151f,#080a12);
+  box-shadow:0 0 0 1px #1c2030 inset, 0 0 20px rgba(0,194,255,.05);
+}
+.wlm-particles{
+  position:absolute;inset:0;pointer-events:none;
+}
+.wlm-speedlines{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 60%, transparent 30%, rgba(0,0,0,.7) 100%);
+  mix-blend-mode:multiply;
+}
+.wlm-vignette{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,.55) 100%);
+}
+.wlm-flash{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 50%, #fff 0%, rgba(255,255,255,.6) 25%, transparent 70%);
+  opacity:0;
+}
+.wlm-flash.go{
+  animation:wlmFlash .9s ease-out forwards;
+}
+@keyframes wlmFlash{
+  0%{opacity:0;transform:scale(.5)}
+  20%{opacity:1;transform:scale(1.2)}
+  100%{opacity:0;transform:scale(2)}
+}
+
+/* --- Cabin: wheel + dashboard --- */
+.wlm-cabin{
+  position:absolute;left:0;right:0;bottom:0;
+  height:38%;pointer-events:none;
+  background:linear-gradient(180deg, transparent 0%, rgba(0,0,0,.4) 30%, #000 80%);
+}
+.wlm-wheel{
+  position:absolute;left:50%;bottom:-60px;
+  width:560px;height:560px;margin-left:-280px;
+  filter:drop-shadow(0 -10px 30px rgba(0,0,0,.8));
+}
+.wlm-dash{
+  position:absolute;left:50%;top:14%;transform:translateX(-50%);
+  width:min(420px, 85vw);
+}
+.wlm-dash-frame{
+  background:linear-gradient(180deg,#0c0d13,#06070b);
+  border:1px solid #1a1d27;
+  border-radius:18px;padding:14px 18px 18px;
+  box-shadow:0 0 0 1px rgba(0,194,255,.15) inset, 0 20px 60px -10px rgba(0,194,255,.18);
+  position:relative;
+}
+.wlm-gauge{width:100%;height:auto;display:block}
+.wlm-mph{
+  position:absolute;left:0;right:0;top:55%;text-align:center;
+  font-family:'Arial Narrow',sans-serif;font-weight:900;
+  color:#fff;line-height:1;
+}
+.wlm-mph span{font-size:clamp(40px,8vw,72px);text-shadow:0 0 24px rgba(0,194,255,.5)}
+.wlm-mph small{display:block;color:#00c2ff;font-size:13px;letter-spacing:.3em;margin-top:6px}
+.wlm-status{
+  text-align:center;color:#a9b1bd;
+  letter-spacing:.18em;font-size:12px;font-weight:800;
+  margin-top:4px;text-transform:uppercase;
+  text-shadow:0 0 8px rgba(0,194,255,.4);
+}
+
+/* --- HUD top --- */
+.wlm-hud-top{
+  position:absolute;top:0;left:0;right:0;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 22px;z-index:5;
+  background:linear-gradient(180deg, rgba(0,0,0,.5), transparent);
+}
+.wlm-brand-strip{color:#fff;font-weight:900;letter-spacing:.22em;font-size:13px}
+.wlm-brand-strip .wlm-bolt{color:#00c2ff;margin-right:6px}
+.wlm-close{
+  background:rgba(0,0,0,.5);border:1px solid #2a2d36;color:#fff;
+  width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:18px;
+}
+.wlm-close:hover{background:rgba(0,194,255,.2);border-color:#00c2ff}
+
+/* --- Start gate --- */
+.wlm-startgate{
+  position:absolute;inset:0;z-index:20;
+  display:none;justify-content:center;align-items:center;
+  background:radial-gradient(ellipse at center, rgba(0,30,50,.85), rgba(0,0,0,.95));
+  backdrop-filter:blur(8px);
+  text-align:center;color:#fff;padding:24px;
+}
+.wlm-startgate.on{display:flex}
+.wlm-startgate-inner{max-width:560px}
+.wlm-bolt-huge{font-size:80px;animation:wlmFloat 2s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(0,194,255,.7))}
+@keyframes wlmFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.wlm-startgate h2{font-size:clamp(28px,4vw,42px);margin:14px 0 12px;letter-spacing:-.01em}
+.wlm-startgate .wlm-blue{
+  background:linear-gradient(90deg,#fff,#00c2ff,#fff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.wlm-startgate p{color:#a9b1bd;font-size:17px;margin:0 0 28px}
+.wlm-start-btn{
+  background:linear-gradient(90deg,#00c2ff,#1a8bff);color:#001018;
+  border:none;border-radius:14px;
+  font-size:20px;font-weight:900;letter-spacing:.06em;
+  padding:18px 36px;cursor:pointer;
+  box-shadow:0 18px 50px -10px rgba(0,194,255,.7);
+  transition:transform .15s ease;
+}
+.wlm-start-btn:hover{transform:scale(1.04)}
+.wlm-startgate small{display:block;margin-top:20px;color:#6b7280;font-size:12px;letter-spacing:.12em}
+
+/* --- Lead form --- */
+.wlm-leadform{
+  position:absolute;inset:0;z-index:30;
+  display:none;justify-content:center;align-items:center;
+  background:radial-gradient(ellipse at center, rgba(0,30,50,.85), rgba(0,0,0,.95));
+  backdrop-filter:blur(10px);text-align:center;color:#fff;padding:24px;
+}
+.wlm-leadform.on{display:flex;animation:wlmFadeUp .6s ease}
+@keyframes wlmFadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.wlm-leadform-inner{max-width:480px;width:100%;position:relative}
+.wlm-leadform h2{font-size:clamp(26px,3.4vw,36px);margin:0 0 6px;font-weight:900;letter-spacing:-.01em}
+.wlm-leadform-sub{color:#a9b1bd;margin:0 0 22px}
+.wlm-leadform form{display:flex;flex-direction:column;gap:10px}
+.wlm-leadform input{
+  background:rgba(255,255,255,.06);color:#fff;border:1px solid #2a2d36;
+  padding:14px 16px;border-radius:12px;font:inherit;font-size:15px;
+  transition:border-color .15s ease, background .15s ease;
+}
+.wlm-leadform input:focus{outline:none;border-color:#00c2ff;background:rgba(0,194,255,.08)}
+.wlm-leadform input::placeholder{color:#6b7280}
+.wlm-submit{
+  background:linear-gradient(90deg,#00c2ff,#1a8bff);color:#001018;
+  border:none;border-radius:12px;padding:16px;font-weight:900;font-size:17px;cursor:pointer;
+  box-shadow:0 14px 40px -10px rgba(0,194,255,.7);
+  letter-spacing:.04em;margin-top:6px;
+}
+.wlm-submit:hover{transform:translateY(-2px)}
+.wlm-leadform small{display:block;margin-top:14px;color:#6b7280;font-size:13px}
+.wlm-leadform small a{color:#00c2ff;text-decoration:none;font-weight:700}
+.wlm-thanks{display:none;text-align:center}
+.wlm-thanks.on{display:block;animation:wlmFadeUp .5s ease}
+.wlm-thanks h2{margin:14px 0 8px}
+.wlm-thanks p{color:#a9b1bd;margin:0 0 22px}
+.wlm-leadform.on .wlm-thanks.on ~ form{display:none}
+.wlm-leadform.on .wlm-thanks.on{position:relative;z-index:2}
+/* hide form when thanks shown */
+.wlm-leadform .wlm-thanks.on + form,
+.wlm-leadform form:has(~ .wlm-thanks.on){display:none}
+/* fallback: hide form whenever thanks active (works without :has) */
+.wlm-leadform.on .wlm-thanks.on{display:block}
+.wlm-leadform.on .wlm-thanks:not(.on){display:none}
+
+/* --- Confetti --- */
+.wlm-confetti{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.wlm-confetti span{
+  position:absolute;font-size:18px;color:#00c2ff;
+  animation:wlmConfetti 1.6s ease-out forwards;
+  opacity:0;text-shadow:0 0 8px rgba(0,194,255,.7);
+}
+@keyframes wlmConfetti{
+  0%{opacity:1;transform:translate(0,0) rotate(0)}
+  100%{opacity:0;transform:translate(var(--dx,0),var(--dy,-400px)) rotate(var(--rot,180deg))}
+}
+
 /* ---------- Product photo strip ---------- */
 .product-photos{
   display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:40px;
