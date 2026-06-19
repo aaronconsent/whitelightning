@@ -146,10 +146,58 @@ def footer():
 </body>
 </html>'''
 
+def page_hero(crumbs_html, eyebrow, h1_html, lede_html, stats_html="", img=None, img_alt=""):
+    """Render a unified page hero. If `img` is given, use 2-column layout with photo."""
+    left = f'''
+    <div class="crumbs">{crumbs_html}</div>
+    <span class="eyebrow">{eyebrow}</span>
+    <h1>{h1_html}</h1>
+    <p class="lede">{lede_html}</p>
+    <div class="hero-ctas">
+      <a class="btn btn-bolt" href="tel:8328321993">📞 {PHONE}</a>
+      <a class="btn btn-ghost" href="/contact/">Get a quote →</a>
+    </div>
+    {stats_html}'''
+    if img:
+        art = f'<div class="page-hero-art"><img src="{img}" alt="{img_alt}" loading="eager" fetchpriority="high" onerror="this.parentElement.style.display=\'none\'"></div>'
+        return f'''<section class="page-hero">
+  <div class="container page-hero-grid">
+    <div>{left}</div>
+    {art}
+  </div>
+</section>
+'''
+    return f'''<section class="page-hero">
+  <div class="container">{left}
+  </div>
+</section>
+'''
+
+def inject_hero_image(body, img, alt):
+    """Patch a body's first .page-hero block to add a side image."""
+    open_tag = '<section class="page-hero">\n  <div class="container">'
+    if open_tag not in body:
+        return body
+    art = f'<div class="page-hero-art"><img src="{img}" alt="{alt}" loading="eager" fetchpriority="high" onerror="this.parentElement.style.display=\'none\'"></div>'
+    new_open = '<section class="page-hero">\n  <div class="container page-hero-grid">\n    <div>'
+    # Replace opening
+    patched = body.replace(open_tag, new_open, 1)
+    # Find the matching `</div>\n</section>` (the container close) and inject the art before it
+    needle = "  </div>\n</section>"
+    idx = patched.find(needle)
+    if idx == -1:
+        return body
+    # Close the wrapping inner <div>, then add art, then keep original closes
+    patched = patched[:idx] + f'    </div>\n    {art}\n  </div>\n</section>' + patched[idx+len(needle):]
+    return patched
+
 def render(page):
     html = head(page["title"], page["desc"], page["path"], page.get("schema"), page.get("crumbs"))
     html += header(page["path"])
-    html += page["body"]
+    body = page["body"]
+    if page.get("hero_image"):
+        body = inject_hero_image(body, page["hero_image"], page.get("hero_alt",""))
+    html += body
     html += footer()
     return html
 
@@ -1372,6 +1420,30 @@ def write_llms_txt():
             lines.append(f"- [{p['title'].split(' |')[0]}]({BASE}{p['path']}): {p['desc']}")
     (SITE/"llms.txt").write_text("\n".join(lines)+"\n")
     print("  wrote site/llms.txt")
+
+HERO_IMAGES = {
+    "/motor-upgrades/": ("/assets/photos/product-lineup.jpg","White Lightning Motors product lineup — high-output motor, heavy-duty solenoid, Bolt Energy lithium battery, Navitas controller"),
+    "/motor-upgrades/ezgo/": ("/assets/photos/hero-cart.jpg","EZGO performance golf cart upgrade — black 4-seater with lift kit and custom motor build"),
+    "/motor-upgrades/club-car/": ("/assets/photos/cart-glow.jpg","Lifted custom golf cart with performance motor build by White Lightning Motors"),
+    "/motor-upgrades/yamaha/": ("/assets/photos/motor-install.jpg","Installed Yamaha-compatible White Lightning high-output motor"),
+    "/motor-upgrades/icon/": ("/assets/photos/hero-cart.jpg","Performance ICON golf cart with White Lightning motor upgrade"),
+    "/lithium-batteries/": ("/assets/photos/product-lineup.jpg","Bolt Energy lithium golf cart battery — installed by authorized dealer White Lightning Motors"),
+    "/controllers/": ("/assets/photos/motor-3d.png","Performance golf cart motor and controller — White Lightning Motors"),
+    "/ac-conversion/": ("/assets/photos/motor-install.jpg","Performance AC motor installed on a customer golf cart"),
+    "/how-it-works/": ("/assets/photos/truck-back.jpg","White Lightning Motors wrapped F-150 shop truck — rear view with phone number 832-832-1993"),
+    "/about/": ("/assets/photos/truck-side.jpg","Charlie's White Lightning Motors wrapped Ford F-150 shop truck — driver-side view"),
+    "/reviews/": ("/assets/photos/hero-cart.jpg","Customer-built lifted black HAVOC golf cart with White Lightning performance motor"),
+    "/faq/": ("/assets/photos/motor-3d.png","White Lightning Motors high-output golf cart motor close-up"),
+    "/contact/": ("/assets/photos/truck-side.jpg","White Lightning Motors shop truck — call Charlie at 832-832-1993"),
+    "/blog/": ("/assets/photos/cart-glow.jpg","Custom lifted golf cart with underglow — built and tuned by White Lightning Motors"),
+    "/blog/how-fast-will-my-golf-cart-go-after-a-motor-upgrade/": ("/assets/photos/hero-cart.jpg","Lifted black golf cart with HAVOC graphics and White Lightning performance motor build"),
+    "/blog/ezgo-vs-club-car-motor-upgrade/": ("/assets/photos/product-lineup.jpg","EZGO and Club Car golf cart performance motor lineup — White Lightning Motors"),
+    "/blog/lithium-vs-lead-acid-golf-cart/": ("/assets/photos/product-lineup.jpg","Bolt Energy lithium golf cart battery alongside White Lightning Motors performance components"),
+}
+for _p in PAGES:
+    img = HERO_IMAGES.get(_p["path"])
+    if img:
+        _p["hero_image"], _p["hero_alt"] = img
 
 def main():
     print(f"Building {len(PAGES)} pages to {SITE}/")
