@@ -21,14 +21,15 @@ EMAIL = "sales@whitelightningmotors.com"
 BASE  = "https://whitelightningmotors.com"
 
 NAV = [
-    ("/motor-upgrades/", "Motor Upgrades"),
-    ("/lithium-batteries/", "Lithium"),
-    ("/controllers/", "Controllers"),
-    ("/ac-conversion/", "AC Kits"),
+    ("/", "Home"),
+    ("/services/", "Services", [
+        ("/motor-upgrades/", "Motor Upgrades"),
+        ("/lithium-batteries/", "Lithium Batteries"),
+        ("/controllers/", "Controllers"),
+        ("/ac-conversion/", "AC Kits"),
+    ]),
     ("/how-it-works/", "How It Works"),
     ("/reviews/", "Reviews"),
-    ("/blog/", "Blog"),
-    ("/contact/", "Contact"),
 ]
 
 def head(title, desc, path, extra_schema=None, crumbs=None):
@@ -78,9 +79,26 @@ def head(title, desc, path, extra_schema=None, crumbs=None):
 
 def header(active_path):
     links = ""
-    for href, label in NAV:
-        cur = ' aria-current="page"' if href == active_path else ""
-        links += f'<a href="{href}"{cur}>{label}</a>\n      '
+    for item in NAV:
+        if len(item) == 3:
+            href, label, children = item
+            child_paths = {href} | {c[0] for c in children}
+            cur = ' aria-current="page"' if active_path in child_paths else ""
+            menu_parts = []
+            for c in children:
+                ccur = ' aria-current="page"' if c[0]==active_path else ""
+                menu_parts.append(f'<a href="{c[0]}"{ccur}>{c[1]}</a>')
+            menu = "".join(menu_parts)
+            links += (
+                f'<div class="nav-dropdown">'
+                f'<a href="{href}"{cur} aria-haspopup="true">{label} <span aria-hidden="true">▾</span></a>'
+                f'<div class="nav-dropdown-menu" role="menu">{menu}</div>'
+                f'</div>\n      '
+            )
+        else:
+            href, label = item
+            cur = ' aria-current="page"' if href == active_path else ""
+            links += f'<a href="{href}"{cur}>{label}</a>\n      '
     return f'''<header class="site-header">
   <div class="container">
     <a class="brand" href="/">
@@ -112,18 +130,23 @@ def footer():
         <p style="margin:0;max-width:340px">Bolt-in performance motor upgrades, lithium conversions, Navitas controllers, and full AC kits. Shipped nationwide from Texas.</p>
       </div>
       <div>
-        <h5>Upgrades</h5>
-        <a href="/motor-upgrades/">Motor Upgrades</a>
+        <h5>By Cart Brand</h5>
         <a href="/motor-upgrades/ezgo/">EZGO Upgrades</a>
         <a href="/motor-upgrades/club-car/">Club Car Upgrades</a>
         <a href="/motor-upgrades/yamaha/">Yamaha Upgrades</a>
+        <a href="/motor-upgrades/icon/">ICON Upgrades</a>
+      </div>
+      <div>
+        <h5>Services</h5>
+        <a href="/services/">All Services</a>
+        <a href="/motor-upgrades/">Motor Upgrades</a>
         <a href="/lithium-batteries/">Lithium Batteries</a>
-        <a href="/controllers/">Navitas Controllers</a>
-        <a href="/ac-conversion/">Full AC Kits</a>
+        <a href="/controllers/">Controllers</a>
+        <a href="/ac-conversion/">AC Kits</a>
+        <a href="/how-it-works/">How It Works</a>
       </div>
       <div>
         <h5>Company</h5>
-        <a href="/how-it-works/">How It Works</a>
         <a href="/about/">About</a>
         <a href="/reviews/">Reviews</a>
         <a href="/faq/">FAQ</a>
@@ -421,6 +444,69 @@ HOME_BODY = '''
   </div>
 </section>
 ''' + CTA_BAND
+
+SERVICES_BODY = f'''
+<section class="page-hero">
+  <div class="container">
+    <div class="crumbs"><a href="/">Home</a> / Services</div>
+    <span class="eyebrow">All services</span>
+    <h1>Everything we build.</h1>
+    <p class="lede">High-output motor upgrades, Bolt Energy lithium conversions, Navitas programmable controllers, and full AC kits — all shipped nationwide from our Texas shop.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-bolt" href="tel:8328321993">📞 {PHONE}</a>
+      <a class="btn btn-ghost" href="/contact/">Get a quote →</a>
+    </div>
+  </div>
+</section>
+
+<section class="light">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Pick your upgrade</span>
+      <h2>Four services. Built and tested by Charlie.</h2>
+      <p>Start with what fits your budget today. Every service stacks — motor + controller + lithium is the most-requested combo.</p>
+    </div>
+    <div class="products">
+      <a class="product" href="/motor-upgrades/" style="text-decoration:none;color:inherit;display:block">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
+        <h3>Motor Upgrades</h3>
+        <div class="price">From $325</div>
+        <p>Bolt-in high-output motor that adds 8–12 mph on a stock controller. EZGO, Club Car, Yamaha, ICON.</p>
+        <ul class="featurelist"><li>✓ Drops into stock controller</li><li>✓ 1-year warranty</li><li>✓ Free return shipping</li></ul>
+      </a>
+      <a class="product" href="/lithium-batteries/" style="text-decoration:none;color:inherit;display:block">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="7" width="16" height="10" rx="2"/><path d="M9 7V4h6v3M8 12h2M14 12h2"/></svg></div>
+        <h3>Lithium Batteries</h3>
+        <div class="price">Quote on request</div>
+        <p>Authorized Bolt Energy dealer. LiFePO4 packs with Bluetooth BMS, 8+ year lifespan, 250 lbs lighter than lead-acid.</p>
+        <ul class="featurelist"><li>✓ 48V & 72V configurations</li><li>✓ Cart-specific brackets</li><li>✓ Lithium-specific charger included</li></ul>
+      </a>
+      <a class="product" href="/controllers/" style="text-decoration:none;color:inherit;display:block">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></div>
+        <h3>Navitas Controllers</h3>
+        <div class="price">Quote on request</div>
+        <p>Programmable DC TSX controllers with Bluetooth tuning. Pair with our motor upgrade for the strongest budget performance combo on the market.</p>
+        <ul class="featurelist"><li>✓ 400A & 600A models</li><li>✓ Bluetooth tuning app</li><li>✓ Compatible with stock throttle</li></ul>
+      </a>
+      <a class="product" href="/ac-conversion/" style="text-decoration:none;color:inherit;display:block">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
+        <h3>AC Conversion Kits</h3>
+        <div class="price">Quote on request</div>
+        <p>Full brushless AC motor + controller conversion. Regen braking, near-silent operation, 30+ mph capable. The endgame build.</p>
+        <ul class="featurelist"><li>✓ AC motor + controller + harness</li><li>✓ Regenerative braking</li><li>✓ Fits EZGO, Club Car, Yamaha</li></ul>
+      </a>
+    </div>
+  </div>
+</section>
+''' + CTA_BAND
+
+PAGES.append({
+    "path":"/services/",
+    "title":"Services — Motor Upgrades, Lithium, Controllers, AC Kits | White Lightning Motors",
+    "desc":"Every service White Lightning Motors offers — high-output motor upgrades, Bolt Energy lithium conversions, Navitas programmable controllers, and full AC kits. Mail-in service nationwide.",
+    "crumbs":[("Home","/"),("Services","/services/")],
+    "body":SERVICES_BODY,
+})
 
 PAGES.append({
     "path":"/",
