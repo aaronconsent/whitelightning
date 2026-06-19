@@ -58,9 +58,12 @@ a:hover{text-decoration:underline}
 .brand-mark svg{width:26px;height:26px}
 .brand-text{font-size:18px;line-height:1}
 .brand-text small{display:block;font-size:11px;font-weight:600;color:var(--bolt);letter-spacing:.18em;margin-top:4px;text-transform:uppercase}
-nav.primary{display:flex;align-items:center;gap:22px}
-nav.primary a{color:var(--ink);font-weight:600}
+nav.primary{display:flex;align-items:center;gap:18px}
+nav.primary a{color:var(--ink);font-weight:600;font-size:14.5px;white-space:nowrap}
 nav.primary a:hover{color:var(--bolt);text-decoration:none}
+nav.primary a[aria-current="page"]{color:var(--bolt)}
+nav.primary .btn{font-size:14px;padding:10px 14px}
+@media (max-width:1100px){nav.primary{gap:14px}nav.primary a{font-size:13.5px}}
 .btn{
   display:inline-flex;align-items:center;gap:8px;
   padding:12px 18px;border-radius:10px;font-weight:800;letter-spacing:.01em;
@@ -139,6 +142,111 @@ section.alt{background:var(--bg-2);border-top:1px solid var(--rule);border-botto
 .section-head{max-width:760px;margin:0 auto 48px;text-align:center}
 .section-head h2{font-size:clamp(28px,3.4vw,42px);margin:14px 0 10px;letter-spacing:-.01em;font-weight:900}
 .section-head p{color:var(--ink-soft);font-size:17px;margin:0}
+
+/* ---------- Light sections (readability for long-form content) ---------- */
+section.light{
+  background:#f7f8fb;
+  color:#0c1018;
+  border-top:1px solid #e7eaf0;
+  border-bottom:1px solid #e7eaf0;
+}
+section.light .eyebrow{
+  background:rgba(0,150,210,.10);border-color:rgba(0,150,210,.30);color:#0b6fa1;
+}
+section.light h1,
+section.light h2,
+section.light h3,
+section.light h4{color:#0c1018}
+section.light h1 .bolt{
+  background:linear-gradient(90deg,#0c1018 0%,#0b6fa1 60%,#0c1018 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+section.light p,
+section.light li{color:#3b4150}
+section.light .section-head p{color:#566070}
+section.light a{color:#0b6fa1}
+section.light .card,
+section.light .product,
+section.light .step,
+section.light .review,
+section.light .faq details,
+section.light .contact-box,
+section.light .speed-card,
+section.light .warranty .item{
+  background:#fff;border:1px solid #e7eaf0;color:#0c1018;box-shadow:0 1px 0 #eef0f5;
+}
+section.light .product:hover{border-color:#0b6fa1}
+section.light .product .icon,
+section.light .step .n,
+section.light .contact-box .row .ico{background:#0c1018;color:var(--bolt)}
+section.light .featurelist li{border-color:#eef0f5}
+section.light .product .price{color:#0b6fa1}
+section.light .bar{background:#e3e7ee}
+section.light .bar > span{background:#94a3b8}
+section.light .bar.fast > span{background:linear-gradient(90deg,#00a4d8,#0b6fa1)}
+section.light .speed-card .note{color:#566070}
+section.light .review .stars{color:#f59e0b}
+section.light .review p{color:#0c1018}
+section.light .review .who{color:#566070;border-color:#eef0f5}
+section.light .review .who b{color:#0c1018}
+section.light .faq details[open]{border-color:#0b6fa1}
+section.light .faq summary{color:#0c1018}
+section.light .faq summary::after{color:#0b6fa1}
+section.light .faq p{color:#3b4150}
+section.light .warranty .item svg{color:#0b6fa1}
+section.light .warranty p,
+section.light .step p,
+section.light .product p{color:#566070}
+section.light .contact-box .row b{color:#0c1018}
+section.light .contact-box .row span{color:#566070}
+section.light form.cf input,
+section.light form.cf textarea,
+section.light form.cf select{
+  background:#fff;color:#0c1018;border:1px solid #d8dce4;
+}
+section.light form.cf label{color:#3b4150}
+section.light .brands{background:#fff;border-color:#e7eaf0}
+section.light .brands b{color:#0c1018}
+section.light .brands span{color:#566070}
+
+/* Article body for blog posts */
+.prose{max-width:760px;margin:0 auto}
+.prose h2{font-size:30px;margin:42px 0 14px;letter-spacing:-.01em}
+.prose h3{font-size:22px;margin:30px 0 10px}
+.prose p,
+.prose ul,
+.prose ol{font-size:17px;line-height:1.75}
+.prose ul,
+.prose ol{padding-left:22px}
+.prose li{margin:6px 0}
+.prose blockquote{
+  border-left:3px solid var(--bolt);padding:8px 18px;margin:24px 0;
+  background:rgba(0,194,255,.06);font-style:italic;border-radius:0 8px 8px 0;
+}
+section.light .prose blockquote{background:rgba(11,111,161,.06);border-color:#0b6fa1}
+.prose .key-takeaway{
+  background:#0c1018;color:#fff;padding:20px 24px;border-radius:12px;
+  border-left:4px solid var(--bolt);margin:24px 0;
+}
+section.light .prose .key-takeaway{background:#0c1018}
+.prose .key-takeaway b{color:var(--bolt);display:block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+
+/* Breadcrumbs */
+.crumbs{font-size:14px;color:var(--ink-soft);margin-bottom:14px}
+.crumbs a{color:var(--ink-soft)}
+.crumbs a:hover{color:var(--bolt)}
+section.light .crumbs{color:#566070}
+section.light .crumbs a{color:#566070}
+section.light .crumbs a:hover{color:#0b6fa1}
+
+/* Page hero variant (compact) */
+.page-hero{padding:80px 0 56px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(700px 320px at 80% -20%, rgba(0,194,255,.16), transparent 60%),
+    linear-gradient(180deg,#07070a,#0a0a0d);
+}
+.page-hero h1{font-size:clamp(34px,5vw,54px);margin:10px 0 14px}
+.page-hero .lede{max-width:720px}
 
 /* ---------- Speed bars ---------- */
 .speed-wrap{
