@@ -1,0 +1,48 @@
+name: Deploy to Cloudflare Pages
+
+# Easiest path: connect github.com/aaronconsent/whitelightning to a
+# Cloudflare Pages project in the CF dashboard with Build output: `site`.
+# Cloudflare will auto-deploy on every push to main. No secrets needed.
+#
+# This workflow is a fallback / preview-builds setup. To enable it,
+# add two repo secrets:
+#   - CLOUDFLARE_API_TOKEN   (Pages:Edit permission)
+#   - CLOUDFLARE_ACCOUNT_ID  (from CF dashboard right sidebar)
+# Then make sure PROJECT_NAME below matches your CF Pages project.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Skip if secrets not configured
+        id: gate
+        run: |
+          if [ -z "${{ secrets.CLOUDFLARE_API_TOKEN }}" ] || [ -z "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" ]; then
+            echo "Cloudflare secrets not set — relying on dashboard-connected auto-deploy."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Publish to Cloudflare Pages
+        if: steps.gate.outputs.skip != 'true'
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: whitelightning
+          directory: site
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
