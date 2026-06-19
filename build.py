@@ -500,11 +500,99 @@ SERVICES_BODY = f'''
 </section>
 ''' + CTA_BAND
 
+SERVICES_SCHEMA = [
+    {
+        "@context":"https://schema.org",
+        "@type":"OfferCatalog",
+        "name":"White Lightning Motors — Performance Golf Cart Services",
+        "url":f"{BASE}/services/",
+        "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC","telephone":f"+1-{PHONE}","url":BASE+"/"},
+        "itemListElement":[
+            {
+                "@type":"Offer",
+                "itemOffered":{
+                    "@type":"Service",
+                    "name":"High-Output Golf Cart Motor Upgrade",
+                    "description":"Bolt-in high-output replacement motor for EZGO, Club Car, Yamaha, and ICON golf carts. Adds 8–12 mph on a stock controller. 1-year warranty, free return shipping, mail-in service.",
+                    "serviceType":"Performance motor upgrade",
+                    "areaServed":"United States",
+                    "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC"},
+                    "url":f"{BASE}/motor-upgrades/",
+                    "image":f"{BASE}/assets/photos/install-headon.jpg",
+                },
+                "price":"325","priceCurrency":"USD",
+                "priceSpecification":{"@type":"PriceSpecification","price":"325","priceCurrency":"USD","valueAddedTaxIncluded":False},
+                "availability":"https://schema.org/InStock",
+                "url":f"{BASE}/motor-upgrades/",
+            },
+            {
+                "@type":"Offer",
+                "itemOffered":{
+                    "@type":"Service",
+                    "name":"Bolt Energy Lithium Battery Conversion",
+                    "description":"Authorized Bolt Energy dealer install of 48V/72V LiFePO4 lithium battery packs with Bluetooth BMS, lithium-specific charger, and cart-specific brackets. Saves 250 lbs and doubles usable range vs lead-acid.",
+                    "serviceType":"Lithium battery conversion",
+                    "areaServed":"United States",
+                    "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC"},
+                    "url":f"{BASE}/lithium-batteries/",
+                    "image":f"{BASE}/assets/photos/bolt-txt-kit.jpg",
+                },
+                "url":f"{BASE}/lithium-batteries/",
+                "availability":"https://schema.org/InStock",
+            },
+            {
+                "@type":"Offer",
+                "itemOffered":{
+                    "@type":"Service",
+                    "name":"Navitas DC TSX Programmable Controller",
+                    "description":"Navitas DC TSX 400A and 600A programmable controller installs with Bluetooth tuning. Adjustable top speed, acceleration, regenerative braking, and current limits.",
+                    "serviceType":"Programmable controller install",
+                    "areaServed":"United States",
+                    "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC"},
+                    "url":f"{BASE}/controllers/",
+                    "image":f"{BASE}/assets/photos/product-controller.jpg",
+                },
+                "url":f"{BASE}/controllers/",
+                "availability":"https://schema.org/InStock",
+            },
+            {
+                "@type":"Offer",
+                "itemOffered":{
+                    "@type":"Service",
+                    "name":"Full AC Conversion Kit",
+                    "description":"Complete brushless AC motor and controller conversion for EZGO, Club Car, and Yamaha carts. Includes motor, controller, harness, throttle adapter, and contactor. Regenerative braking and 30+ mph capable.",
+                    "serviceType":"AC motor conversion",
+                    "areaServed":"United States",
+                    "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC"},
+                    "url":f"{BASE}/ac-conversion/",
+                },
+                "url":f"{BASE}/ac-conversion/",
+                "availability":"https://schema.org/InStock",
+            },
+        ],
+    },
+    # ItemList for AI engines that prefer it over OfferCatalog
+    {
+        "@context":"https://schema.org",
+        "@type":"ItemList",
+        "name":"White Lightning Motors Services",
+        "itemListOrder":"https://schema.org/ItemListOrderAscending",
+        "numberOfItems":4,
+        "itemListElement":[
+            {"@type":"ListItem","position":1,"url":f"{BASE}/motor-upgrades/","name":"Motor Upgrades"},
+            {"@type":"ListItem","position":2,"url":f"{BASE}/lithium-batteries/","name":"Lithium Batteries"},
+            {"@type":"ListItem","position":3,"url":f"{BASE}/controllers/","name":"Navitas Controllers"},
+            {"@type":"ListItem","position":4,"url":f"{BASE}/ac-conversion/","name":"AC Conversion Kits"},
+        ],
+    },
+]
+
 PAGES.append({
     "path":"/services/",
     "title":"Services — Motor Upgrades, Lithium, Controllers, AC Kits | White Lightning Motors",
     "desc":"Every service White Lightning Motors offers — high-output motor upgrades, Bolt Energy lithium conversions, Navitas programmable controllers, and full AC kits. Mail-in service nationwide.",
     "crumbs":[("Home","/"),("Services","/services/")],
+    "schema":SERVICES_SCHEMA,
     "body":SERVICES_BODY,
 })
 
