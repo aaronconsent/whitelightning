@@ -337,8 +337,8 @@ HOME_BODY = '''
     </div>
     <div class="product-photos">
       <a href="/motor-upgrades/"><img src="/assets/photos/product-motor.jpg" alt="High-output golf cart motor — White Lightning Motors" loading="lazy"><span>High-Output Motor</span></a>
-      <a href="/motor-upgrades/#solenoids"><img src="/assets/photos/product-solenoid.jpg" alt="Heavy-duty 36V/48V solenoid for golf cart performance builds" loading="lazy"><span>HD Solenoid</span></a>
-      <a href="/lithium-batteries/"><img src="/assets/photos/product-lithium.jpg" alt="Bolt Energy lithium iron phosphate golf cart battery pack" loading="lazy"><span>Bolt Energy Lithium</span></a>
+      <a href="/motor-upgrades/#solenoids"><img src="/assets/photos/product-solenoid-clean.jpg" alt="Bolt Energy heavy-duty contactor / solenoid for 48V lithium golf cart builds" loading="lazy"><span>HD Contactor</span></a>
+      <a href="/lithium-batteries/"><img src="/assets/photos/product-lithium-clean.jpg" alt="Bolt Energy 48V 105Ah lithium iron phosphate golf cart battery" loading="lazy"><span>Bolt Energy Lithium</span></a>
       <a href="/controllers/"><img src="/assets/photos/product-controller.jpg" alt="Navitas DC TSX programmable golf cart controller" loading="lazy"><span>Navitas Controller</span></a>
     </div>
     <div class="products">
@@ -710,13 +710,36 @@ LITHIUM_BODY = f'''
     <h2>Why lithium changes everything</h2>
     <p>Lead-acid batteries are heavy, slow to charge, lose capacity in cold weather, and start dying the day you buy them. Lithium iron phosphate (LiFePO4) packs don't have any of those problems. The day we install a lithium pack is usually the day the customer texts back asking why they didn't do this five years ago.</p>
     <div class="key-takeaway"><b>The short version</b>Lithium = lighter cart, more range, faster recharge, longer life, zero maintenance. Higher upfront cost is offset by the pack outlasting two lead-acid replacements.</div>
-    <h2>What we install</h2>
-    <ul>
-      <li><b>Bolt Energy LiFePO4 packs</b> — 48V and 72V configurations</li>
-      <li><b>Bluetooth BMS</b> — monitor pack health, state of charge, and balance from your phone</li>
-      <li><b>Cart-specific brackets</b> — clean install in the factory battery tray, no janky zip-ties</li>
-      <li><b>Lithium-compatible charger</b> — paired with your pack for maximum lifespan</li>
-    </ul>
+    <h2>What's in a Bolt Energy lithium kit</h2>
+    <p>Not just a battery — every kit ships with every component you need to swap from lead-acid to lithium in an afternoon. Authorized Bolt Energy dealer pricing.</p>
+  </div>
+
+  <div class="container" style="margin-top:32px">
+    <div class="product-photos" style="grid-template-columns:repeat(4,1fr)">
+      <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid #e7eaf0">
+        <img src="/assets/photos/product-lithium-clean.jpg" alt="Bolt Energy 48V 105Ah LiFePO4 lithium battery" style="width:100%;height:160px;object-fit:contain" loading="lazy">
+        <b style="display:block;margin-top:8px;color:#0c1018">LiFePO4 Battery</b>
+        <span style="color:#566070;font-size:13px">48V · 60/105/160Ah</span>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid #e7eaf0">
+        <img src="/assets/photos/product-solenoid-clean.jpg" alt="Heavy-duty contactor" style="width:100%;height:160px;object-fit:contain" loading="lazy">
+        <b style="display:block;margin-top:8px;color:#0c1018">HD Contactor</b>
+        <span style="color:#566070;font-size:13px">High-current rated</span>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid #e7eaf0">
+        <img src="/assets/photos/product-bms.jpg" alt="Bolt Energy Bluetooth BMS unit" style="width:100%;height:160px;object-fit:contain" loading="lazy">
+        <b style="display:block;margin-top:8px;color:#0c1018">Bluetooth BMS</b>
+        <span style="color:#566070;font-size:13px">App monitoring</span>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid #e7eaf0">
+        <img src="/assets/photos/product-charger.jpg" alt="Bolt Energy 48V lithium charger" style="width:100%;height:160px;object-fit:contain" loading="lazy">
+        <b style="display:block;margin-top:8px;color:#0c1018">48V Charger</b>
+        <span style="color:#566070;font-size:13px">Lithium-specific</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container prose" style="margin-top:42px">
     <h2>Pair it with a motor upgrade</h2>
     <p>Lithium and a <a href="/motor-upgrades/">high-output motor</a> are made for each other. The pack delivers usable voltage all the way down, so the motor pulls hard from full to empty instead of getting weaker as the batteries sag. Add a <a href="/controllers/">Navitas controller</a> and you have a 30+ mph build that runs all day.</p>
   </div>
@@ -1433,7 +1456,7 @@ HERO_IMAGES = {
     "/motor-upgrades/club-car/": ("/assets/photos/cart-glow.jpg","Lifted custom golf cart with performance motor build by White Lightning Motors"),
     "/motor-upgrades/yamaha/": ("/assets/photos/motor-install.jpg","Installed Yamaha-compatible White Lightning high-output motor"),
     "/motor-upgrades/icon/": ("/assets/photos/hero-cart.jpg","Performance ICON golf cart with White Lightning motor upgrade"),
-    "/lithium-batteries/": ("/assets/photos/product-lithium.jpg","Bolt Energy 48V lithium iron phosphate golf cart battery — green LiFePO4 pack"),
+    "/lithium-batteries/": ("/assets/photos/bolt-txt-kit.jpg","Bolt Energy 48V 105Ah lithium kit — battery, contactor, BMS, charger, harnesses, display gauge"),
     "/controllers/": ("/assets/photos/product-controller.jpg","Navitas DC TSX programmable golf cart controller with throttle and contactor"),
     "/ac-conversion/": ("/assets/photos/motor-install.jpg","Performance AC motor installed on a customer golf cart"),
     "/how-it-works/": ("/assets/photos/truck-back.jpg","White Lightning Motors wrapped F-150 shop truck — rear view with phone number 832-832-1993"),
