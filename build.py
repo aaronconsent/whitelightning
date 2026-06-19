@@ -457,6 +457,9 @@ MU_BODY = f'''
     <div style="text-align:center">
       <a class="btn btn-bolt" href="tel:8328321993">📞 Add a solenoid to your build</a>
     </div>
+    <div style="margin-top:48px;text-align:center">
+      <img src="/assets/photos/product-lineup.jpg" alt="White Lightning Motors product lineup — high-output motor, heavy-duty solenoid, Bolt Energy lithium battery, Navitas controller" style="max-width:900px;width:100%;border-radius:14px;border:1px solid var(--rule)" loading="lazy" onerror="this.style.display='none'">
+    </div>
   </div>
 </section>
 
@@ -893,6 +896,10 @@ ABOUT_BODY = f'''
     <h2>Where we are</h2>
     <p>The shop is in the Houston, TX area. The truck (the wrapped F-150 you might've seen on Facebook) is at every local install. Mail-in customers, doesn't matter — your motor comes back free.</p>
   </div>
+</section>
+
+<section style="padding:0">
+  <img src="/assets/photos/cart-glow.jpg" alt="Lifted custom golf cart with green underglow lights at night — built and tuned by White Lightning Motors" style="width:100%;display:block;max-height:560px;object-fit:cover" loading="lazy" onerror="this.style.display='none'">
 </section>
 
 <section>
