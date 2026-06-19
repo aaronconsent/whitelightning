@@ -710,12 +710,39 @@ MU_BODY = f'''
 </section>
 ''' + CTA_BAND
 
+MOTOR_SERVICE_SCHEMA = {
+    "@context":"https://schema.org","@type":"Service",
+    "name":"Golf Cart Motor Upgrade Service",
+    "serviceType":"Performance motor upgrade",
+    "description":"High-output bolt-in motor upgrade for EZGO, Club Car, Yamaha, ICON, and Evolution golf carts. Takes stock 14 mph carts to 25+ mph on a stock controller. Mail-in service nationwide.",
+    "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC","telephone":f"+1-{PHONE}","url":BASE+"/"},
+    "areaServed":{"@type":"Country","name":"United States"},
+    "audience":{"@type":"Audience","audienceType":"Golf cart owners, dealers, and performance enthusiasts"},
+    "image":f"{BASE}/assets/photos/install-headon.jpg",
+    "url":f"{BASE}/motor-upgrades/",
+    "offers":{
+        "@type":"Offer","price":"325","priceCurrency":"USD",
+        "availability":"https://schema.org/InStock",
+        "url":f"{BASE}/motor-upgrades/",
+        "priceValidUntil":"2027-12-31",
+    },
+    "hasOfferCatalog":{
+        "@type":"OfferCatalog","name":"Motor upgrades by cart brand",
+        "itemListElement":[
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"EZGO motor upgrade","url":f"{BASE}/motor-upgrades/ezgo/"}, "price":"325","priceCurrency":"USD"},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Club Car motor upgrade","url":f"{BASE}/motor-upgrades/club-car/"}, "price":"325","priceCurrency":"USD"},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Yamaha motor upgrade","url":f"{BASE}/motor-upgrades/yamaha/"}, "price":"325","priceCurrency":"USD"},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"ICON motor upgrade","url":f"{BASE}/motor-upgrades/icon/"}, "price":"325","priceCurrency":"USD"},
+        ],
+    },
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"11"},
+}
 PAGES.append({
     "path":"/motor-upgrades/",
     "title":"Golf Cart Motor Upgrades — EZGO, Club Car, Yamaha | White Lightning Motors",
     "desc":"High-output bolt-in golf cart motor upgrades from $325. EZGO, Club Car, Yamaha, ICON. 14 mph stock to 25+ mph with stock controller. 1-year warranty. Mail-in service.",
     "crumbs":[("Home","/"),("Motor Upgrades","/motor-upgrades/")],
-    "schema":[faq_schema(MU_FAQ)],
+    "schema":[MOTOR_SERVICE_SCHEMA, faq_schema(MU_FAQ)],
     "body":MU_BODY,
 })
 
@@ -938,12 +965,26 @@ LITHIUM_BODY = f'''
 </section>
 ''' + CTA_BAND
 
+LITHIUM_SERVICE_SCHEMA = {
+    "@context":"https://schema.org","@type":"Service",
+    "name":"Bolt Energy Lithium Battery Conversion",
+    "serviceType":"Lithium battery conversion and install",
+    "description":"Authorized Bolt Energy dealer install of 48V and 72V LiFePO4 lithium battery packs for golf carts. Includes battery, Bluetooth BMS, heavy-duty contactor, lithium-specific charger, and cart-specific brackets. Saves 250+ lbs vs lead-acid and doubles usable range.",
+    "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC","telephone":f"+1-{PHONE}","url":BASE+"/"},
+    "areaServed":{"@type":"Country","name":"United States"},
+    "audience":{"@type":"Audience","audienceType":"Golf cart owners and dealers upgrading from lead-acid"},
+    "image":f"{BASE}/assets/photos/bolt-txt-kit.jpg",
+    "url":f"{BASE}/lithium-batteries/",
+    "brand":{"@type":"Brand","name":"Bolt Energy USA"},
+    "offers":{"@type":"Offer","availability":"https://schema.org/InStock","url":f"{BASE}/lithium-batteries/","priceSpecification":{"@type":"PriceSpecification","priceCurrency":"USD","description":"Quote on request — varies by cart and pack capacity"}},
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"11"},
+}
 PAGES.append({
     "path":"/lithium-batteries/",
     "title":"Lithium Golf Cart Battery Conversions | White Lightning Motors",
     "desc":"Lithium battery upgrades for EZGO, Club Car, Yamaha, ICON. 48V/72V Bolt Energy LiFePO4 packs with Bluetooth BMS. 250 lb weight savings, 2× range, 8+ year lifespan.",
     "crumbs":[("Home","/"),("Lithium Batteries","/lithium-batteries/")],
-    "schema":[faq_schema(LITHIUM_FAQ)],
+    "schema":[LITHIUM_SERVICE_SCHEMA, faq_schema(LITHIUM_FAQ)],
     "body":LITHIUM_BODY,
 })
 
@@ -1002,12 +1043,26 @@ CTRL_BODY = f'''
 </section>
 ''' + CTA_BAND
 
+CTRL_SERVICE_SCHEMA = {
+    "@context":"https://schema.org","@type":"Service",
+    "name":"Navitas DC TSX Programmable Controller Install",
+    "serviceType":"Programmable golf cart controller install and tuning",
+    "description":"Navitas DC TSX 400A and 600A programmable controller installs with Bluetooth tuning over the Navitas iOS/Android app. Adjustable top speed, acceleration profile, regen aggressiveness, and current limits. Compatible with EZGO TXT/RXV, Club Car DS/Precedent, Yamaha G-series, ICON, and Evolution.",
+    "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC","telephone":f"+1-{PHONE}","url":BASE+"/"},
+    "areaServed":{"@type":"Country","name":"United States"},
+    "audience":{"@type":"Audience","audienceType":"Golf cart performance enthusiasts and dealers"},
+    "image":f"{BASE}/assets/photos/product-controller.jpg",
+    "url":f"{BASE}/controllers/",
+    "brand":{"@type":"Brand","name":"Navitas Vehicle Systems"},
+    "offers":{"@type":"Offer","availability":"https://schema.org/InStock","url":f"{BASE}/controllers/","priceSpecification":{"@type":"PriceSpecification","priceCurrency":"USD","description":"Quote on request — varies by controller model and install scope"}},
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"11"},
+}
 PAGES.append({
     "path":"/controllers/",
     "title":"Navitas Golf Cart Controllers — DC TSX 400A & 600A | White Lightning Motors",
     "desc":"Navitas DC TSX programmable controllers for EZGO, Club Car, Yamaha. Bluetooth tuning, adjustable speed/regen/current limits. 400A and 600A models. Paired with motor upgrades.",
     "crumbs":[("Home","/"),("Controllers","/controllers/")],
-    "schema":[faq_schema(CTRL_FAQ)],
+    "schema":[CTRL_SERVICE_SCHEMA, faq_schema(CTRL_FAQ)],
     "body":CTRL_BODY,
 })
 
@@ -1065,12 +1120,25 @@ AC_BODY = f'''
 </section>
 ''' + CTA_BAND
 
+AC_SERVICE_SCHEMA = {
+    "@context":"https://schema.org","@type":"Service",
+    "name":"Full AC Conversion Kit Install",
+    "serviceType":"Brushless AC motor and controller conversion",
+    "description":"Complete brushless AC motor and AC controller conversion for EZGO, Club Car, and Yamaha golf carts. Includes AC motor, AC controller, wiring harness, throttle adapter, and contactor. Adds regenerative braking, near-silent operation, and 30+ mph top-end capability.",
+    "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC","telephone":f"+1-{PHONE}","url":BASE+"/"},
+    "areaServed":{"@type":"Country","name":"United States"},
+    "audience":{"@type":"Audience","audienceType":"Serious golf cart performance builders"},
+    "image":f"{BASE}/assets/photos/motor-install.jpg",
+    "url":f"{BASE}/ac-conversion/",
+    "offers":{"@type":"Offer","availability":"https://schema.org/InStock","url":f"{BASE}/ac-conversion/","priceSpecification":{"@type":"PriceSpecification","priceCurrency":"USD","description":"Quote on request — typically $1,500+ depending on cart and components"}},
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"11"},
+}
 PAGES.append({
     "path":"/ac-conversion/",
     "title":"Golf Cart AC Conversion Kits | White Lightning Motors",
     "desc":"Full AC motor + controller conversion kits for EZGO, Club Car, Yamaha. Regenerative braking, near-silent operation, 30+ mph capable. Compare AC vs high-output DC with Charlie.",
     "crumbs":[("Home","/"),("AC Conversion","/ac-conversion/")],
-    "schema":[faq_schema(AC_FAQ)],
+    "schema":[AC_SERVICE_SCHEMA, faq_schema(AC_FAQ)],
     "body":AC_BODY,
 })
 
@@ -1118,11 +1186,36 @@ HOW_BODY = f'''
 </section>
 ''' + CTA_BAND
 
+HOWTO_SCHEMA = {
+    "@context":"https://schema.org","@type":"HowTo",
+    "name":"How to upgrade a golf cart motor with White Lightning Motors mail-in service",
+    "description":"The complete 6-step mail-in process — from quote to install — for upgrading a golf cart motor with White Lightning Motors. Average total turnaround is under 2 weeks.",
+    "image":f"{BASE}/assets/photos/install-headon.jpg",
+    "estimatedCost":{"@type":"MonetaryAmount","currency":"USD","value":"325"},
+    "totalTime":"P14D",
+    "supply":[
+        {"@type":"HowToSupply","name":"Existing golf cart motor (to ship in)"},
+        {"@type":"HowToSupply","name":"Shipping box and packing material"},
+    ],
+    "tool":[
+        {"@type":"HowToTool","name":"Socket wrench"},
+        {"@type":"HowToTool","name":"Cart-specific motor mount bolts (factory)"},
+    ],
+    "step":[
+        {"@type":"HowToStep","position":1,"name":"Call or text Charlie","text":"Call 832-832-1993 with your cart make, model, year, and goal. Charlie quotes you on the phone and tells you exactly which motor specs you need.","url":f"{BASE}/how-it-works/#step-1"},
+        {"@type":"HowToStep","position":2,"name":"Pay and receive shipping instructions","text":"Pay the invoice. We send shipping instructions plus a return shipping label. Most customers pull the motor themselves in 20 minutes with two bolts and the wiring lugs.","url":f"{BASE}/how-it-works/#step-2"},
+        {"@type":"HowToStep","position":3,"name":"Ship your motor to Texas","text":"Drop the boxed motor at any UPS or FedEx counter. Average transit is 2-4 business days from anywhere in the continental United States.","url":f"{BASE}/how-it-works/#step-3"},
+        {"@type":"HowToStep","position":4,"name":"We rebuild and bench-test","text":"Your motor is rewound with high-output components, bench-built, and dyno-tested before it leaves the shop. Standard turnaround is 4-7 business days from arrival.","url":f"{BASE}/how-it-works/#step-4"},
+        {"@type":"HowToStep","position":5,"name":"We ship it back free","text":"Free return shipping inside the continental United States. We send tracking. Most customers get their motor back in under two weeks total.","url":f"{BASE}/how-it-works/#step-5"},
+        {"@type":"HowToStep","position":6,"name":"Bolt it back in","text":"Reverse of the removal. Reconnect the two motor lugs. Pull the throttle. The 1-year warranty starts the day the motor arrives at your door.","url":f"{BASE}/how-it-works/#step-6"},
+    ],
+}
 PAGES.append({
     "path":"/how-it-works/",
     "title":"How Our Mail-In Golf Cart Motor Service Works | White Lightning Motors",
     "desc":"Step-by-step: how to ship your golf cart motor to our Texas shop, what we do to it, and how fast it comes back. Free return shipping, 4–7 day turnaround, 1-year warranty.",
     "crumbs":[("Home","/"),("How It Works","/how-it-works/")],
+    "schema":[HOWTO_SCHEMA],
     "body":HOW_BODY,
 })
 
