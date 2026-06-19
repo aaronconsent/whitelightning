@@ -135,6 +135,11 @@ def footer():
         <a href="/motor-upgrades/club-car/">Club Car Upgrades</a>
         <a href="/motor-upgrades/yamaha/">Yamaha Upgrades</a>
         <a href="/motor-upgrades/icon/">ICON Upgrades</a>
+        <a href="/service-area/">Texas Service Areas</a>
+        <a href="/service-area/houston/">Houston</a>
+        <a href="/service-area/dallas-fort-worth/">Dallas–Fort Worth</a>
+        <a href="/service-area/austin/">Austin</a>
+        <a href="/service-area/san-antonio/">San Antonio</a>
       </div>
       <div>
         <h5>Services</h5>
@@ -1411,6 +1416,227 @@ PAGES.append({
 })
 
 # ============================================================
+# LOCAL SERVICE-AREA LANDING PAGES
+# ============================================================
+CITIES = [
+    {
+        "slug":"houston","city":"Houston","state":"TX","county":"Harris County",
+        "tier":"local","distance":"home base",
+        "blurb":"Houston is the home base. Our shop is in the Houston metro, and we run the wrapped F-150 you've seen on Facebook. Drop-off and same-week turnaround available for Houston-metro customers.",
+        "neighborhoods":["The Woodlands","Spring","Cypress","Katy","Sugar Land","Pearland","Memorial","Bellaire","Kingwood","Humble"],
+        "courses":"Memorial Park Golf Course, Wildcat Golf Club, BlackHorse Golf Club, Houston National, Sienna Golf Club, Tour 18, Cypresswood",
+        "communities":"Riverstone, Sienna Plantation, Cinco Ranch, The Woodlands, Aliana, Cross Creek Ranch, Towne Lake",
+    },
+    {
+        "slug":"the-woodlands","city":"The Woodlands","state":"TX","county":"Montgomery County",
+        "tier":"local","distance":"30 min north of our shop",
+        "blurb":"The Woodlands has more golf carts per capita than almost any community in Texas. We serve The Woodlands-area customers with same-week motor builds and drop-off install support.",
+        "neighborhoods":["Creekside Park","Grogan's Mill","Sterling Ridge","Alden Bridge","Cochran's Crossing","College Park","Hughes Landing"],
+        "courses":"The Woodlands Country Club, Carlton Woods, Panther Trail, Player Course, Tournament Course, Augusta Pines",
+        "communities":"Creekside Park, Alden Bridge, Sterling Ridge, Cochran's Crossing, Grogan's Mill",
+    },
+    {
+        "slug":"katy","city":"Katy","state":"TX","county":"Fort Bend / Harris County",
+        "tier":"local","distance":"40 min west of our shop",
+        "blurb":"Katy's master-planned communities — Cinco Ranch, Cross Creek Ranch, Firethorne, Cane Island — are golf-cart heavy. We do motor upgrades for Katy-area customers with quick local turnaround.",
+        "neighborhoods":["Cinco Ranch","Cross Creek Ranch","Firethorne","Cane Island","Falcon Point","Avalon at Seven Meadows","Grand Lakes"],
+        "courses":"Cinco Ranch Golf Club, Falcon Point Country Club, Meadowbrook Farms, Houston Oaks",
+        "communities":"Cinco Ranch, Cross Creek Ranch, Firethorne, Cane Island, Grand Lakes",
+    },
+    {
+        "slug":"sugar-land","city":"Sugar Land","state":"TX","county":"Fort Bend County",
+        "tier":"local","distance":"35 min southwest of our shop",
+        "blurb":"Sugar Land's neighborhoods — Riverstone, Sienna Plantation, Telfair, First Colony — are full of EZGO and Club Car owners looking to break free of the stock 14 mph cap. Local pickup available.",
+        "neighborhoods":["Riverstone","Sienna","Telfair","First Colony","Greatwood","New Territory","Avalon"],
+        "courses":"Sweetwater Country Club, Riverbend Country Club, Sugar Creek Country Club, Sienna Plantation Golf Club",
+        "communities":"Riverstone, Sienna Plantation, Telfair, First Colony, Greatwood",
+    },
+    {
+        "slug":"galveston","city":"Galveston","state":"TX","county":"Galveston County",
+        "tier":"local","distance":"1 hour southeast of our shop",
+        "blurb":"Galveston Island is a golf-cart-friendly city — they're legal on most streets. Salt air destroys electrical components fast, so a fresh high-output motor + lithium pack is the right move before next summer.",
+        "neighborhoods":["West End","Pirates Beach","Pointe West","Jamaica Beach","Pirates Cove","East End"],
+        "courses":"Moody Gardens Golf Course, Galveston Country Club, The Galvez (par 3)",
+        "communities":"Pirates Beach, Pointe West, Jamaica Beach, Sea Isle, Spanish Grant",
+    },
+    {
+        "slug":"dallas-fort-worth","city":"Dallas / Fort Worth","state":"TX","county":"Dallas / Tarrant County",
+        "tier":"mail-in","distance":"4 hours north — mail-in service",
+        "blurb":"Dallas-Fort Worth customers are some of our highest-volume mail-in builds. Ship us your motor and we'll ship it back upgraded inside 7-10 days — free return shipping anywhere in DFW.",
+        "neighborhoods":["Plano","Frisco","McKinney","Flower Mound","Southlake","Colleyville","Highland Park","University Park","Westlake","Coppell"],
+        "courses":"Cowboys Golf Club, Stonebriar Country Club, TPC Craig Ranch, Dallas National, Brook Hollow, Vaquero",
+        "communities":"Stonebridge Ranch, Stonebriar, Las Colinas, Vaquero, Vista Ridge",
+    },
+    {
+        "slug":"austin","city":"Austin","state":"TX","county":"Travis County",
+        "tier":"mail-in","distance":"3 hours west — mail-in service",
+        "blurb":"Austin's hill-country neighborhoods chew up stock golf cart motors. Mail-in service from Austin is straightforward — UPS or FedEx, 2-day transit, free return shipping back to you.",
+        "neighborhoods":["Westlake","Bee Cave","Lakeway","Steiner Ranch","Tarrytown","Spicewood","Dripping Springs","Cedar Park","Round Rock","Georgetown"],
+        "courses":"Spanish Oaks, Barton Creek Country Club, Austin Country Club, Lakeway Resort, Falconhead, Avery Ranch",
+        "communities":"Steiner Ranch, Lakeway, Spanish Oaks, Westlake, Barton Creek",
+    },
+    {
+        "slug":"san-antonio","city":"San Antonio","state":"TX","county":"Bexar County",
+        "tier":"mail-in","distance":"3.5 hours west — mail-in service",
+        "blurb":"San Antonio's hill-country and Texas Hill Country lake communities run lots of carts. Mail in your motor to our Houston shop and we'll have it back to you in 10 days or less.",
+        "neighborhoods":["Stone Oak","Alamo Heights","Olmos Park","Boerne","Fair Oaks Ranch","Helotes","Cibolo","Schertz","New Braunfels"],
+        "courses":"The Dominion Country Club, TPC San Antonio, Briggs Ranch, La Cantera, Pecan Valley, Oak Hills",
+        "communities":"The Dominion, Cordillera Ranch, Fair Oaks Ranch, Stone Oak",
+    },
+    {
+        "slug":"conroe-spring",
+        "city":"Conroe & Spring","state":"TX","county":"Montgomery / Harris County",
+        "tier":"local","distance":"30-45 min north of our shop",
+        "blurb":"Conroe, Spring, and the Lake Conroe communities are textbook golf-cart territory. Drop off in person or arrange local pickup — we'll have your cart faster than you can ship it.",
+        "neighborhoods":["Lake Conroe","April Sound","Bentwater","Walden","Klein","Tomball","Champions"],
+        "courses":"Walden on Lake Conroe Golf Club, April Sound Country Club, Bentwater Yacht & Country Club, Magnolia Ridge, Augusta Pines",
+        "communities":"April Sound, Bentwater, Walden, Lake Conroe Estates, Grand Lake Estates",
+    },
+]
+
+def city_page(c):
+    neighborhood_list = ", ".join(c["neighborhoods"])
+    crumbs = [("Home","/"),("Service Areas","/service-area/"),(c["city"],f"/service-area/{c['slug']}/")]
+    tier_label = "Local drop-off available" if c["tier"]=="local" else "Mail-in service"
+    title = f"Golf Cart Motor Upgrades in {c['city']}, {c['state']} | White Lightning Motors"
+    desc = f"Performance golf cart motor upgrades, lithium battery conversions, and Navitas controllers serving {c['city']}, {c['state']} and surrounding {c['county']} neighborhoods. {tier_label}. Call 832-832-1993."
+    schema = [
+        {
+            "@context":"https://schema.org","@type":"Service",
+            "name":f"Golf Cart Motor Upgrades in {c['city']}, {c['state']}",
+            "serviceType":"Performance golf cart motor upgrade",
+            "description":desc,
+            "provider":{"@type":"AutomotiveBusiness","name":"White Lightning Motors, LLC","telephone":f"+1-{PHONE}","url":BASE+"/"},
+            "areaServed":{
+                "@type":"City","name":c["city"],
+                "containedInPlace":{"@type":"State","name":"Texas"},
+            },
+            "audience":{"@type":"Audience","audienceType":f"Golf cart owners in {c['city']} and {neighborhood_list}"},
+            "image":f"{BASE}/assets/photos/install-headon.jpg",
+            "url":f"{BASE}/service-area/{c['slug']}/",
+            "offers":{"@type":"Offer","price":"325","priceCurrency":"USD","availability":"https://schema.org/InStock","url":f"{BASE}/motor-upgrades/"},
+            "aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"11"},
+        },
+        {
+            "@context":"https://schema.org","@type":"FAQPage",
+            "mainEntity":[
+                {"@type":"Question","name":f"Do you serve {c['city']}, TX?","acceptedAnswer":{"@type":"Answer","text":f"Yes. {c['blurb']} Mail-in service is also available if local drop-off doesn't fit your schedule."}},
+                {"@type":"Question","name":f"How fast can I get my motor back if I'm in {c['city']}?","acceptedAnswer":{"@type":"Answer","text":f"Our standard turnaround is 4-7 business days from arrival at the shop. {'Local customers in '+c['city']+' can often drop off and pick up same-week.' if c['tier']=='local' else 'Mail-in transit from '+c['city']+' is typically 2-4 days each way, so total round-trip is usually 10-14 days.'}"}},
+                {"@type":"Question","name":f"What golf cart brands do you upgrade for {c['city']} customers?","acceptedAnswer":{"@type":"Answer","text":"EZGO TXT, RXV, Marathon, Medalist. Club Car DS, Precedent, Onward, Tempo. Yamaha G-series, Drive, Drive 2. Star Cart, ICON, and Evolution. Same pricing and warranty as our nationwide service."}},
+            ],
+        },
+    ]
+    body = f'''
+<section class="page-hero">
+  <div class="container">
+    <div class="crumbs"><a href="/">Home</a> / <a href="/service-area/">Service Areas</a> / {c['city']}, {c['state']}</div>
+    <span class="eyebrow">{c['city']}, {c['state']} · {tier_label}</span>
+    <h1>Performance golf cart motors in <span class="bolt">{c['city']}.</span></h1>
+    <p class="lede">{c['blurb']}</p>
+    <div class="hero-ctas">
+      <a class="btn btn-bolt" href="tel:8328321993">📞 {PHONE}</a>
+      <a class="btn btn-ghost" href="/contact/">Get a quote →</a>
+    </div>
+    <div class="hero-stats">
+      <div><b>14 → 27</b><span>mph stock to upgraded</span></div>
+      <div><b>$325</b><span>motor upgrade</span></div>
+      <div><b>1-yr</b><span>warranty</span></div>
+      <div><b>{c['distance'].split(' — ')[0] if ' — ' in c['distance'] else c['distance']}</b><span>{'from our shop' if c['tier']=='local' else 'mail-in'}</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="light">
+  <div class="container prose">
+    <h2>What we do for {c['city']} customers</h2>
+    <p>Whether you ship us a motor from {c['city']} or drop one off in person, you get the same shop-built motor, the same 1-year warranty, and the same phone number going straight to Charlie. Most {c['city']} customers see their stock 14-17 mph cart hit 25-28 mph the day they bolt the motor back in.</p>
+
+    <h2>Service tiers for {c['city']}</h2>
+    <ul>
+      <li><b><a href="/motor-upgrades/">High-output motor upgrade</a></b> — $325, bolts into your stock controller, biggest single performance jump for the dollar.</li>
+      <li><b><a href="/controllers/">Navitas DC TSX controller</a></b> — programmable speed, regen, current. Pair with the motor for full performance tuning.</li>
+      <li><b><a href="/lithium-batteries/">Bolt Energy lithium conversion</a></b> — 250 lbs lighter, 2× the range, no more watering cells. Authorized Bolt Energy dealer.</li>
+      <li><b><a href="/ac-conversion/">Full AC conversion kit</a></b> — the endgame build with regen braking and 30+ mph capability.</li>
+    </ul>
+
+    <h2>{c['city']} neighborhoods we serve</h2>
+    <p>{neighborhood_list}.</p>
+
+    <h2>Golf courses & cart-friendly communities near {c['city']}</h2>
+    <p><b>Notable courses:</b> {c['courses']}.</p>
+    <p><b>Cart-heavy communities:</b> {c['communities']}.</p>
+
+    <h2>{'Local drop-off vs mail-in' if c['tier']=='local' else 'Mail-in from '+c['city']}</h2>
+    {f'<p>Local {c["city"]} customers can drop off the motor at our Houston-area shop and pick it up when it is done. Most local builds turn around in under a week. If drop-off does not fit your schedule, mail-in works the same way it does for any other customer — UPS or FedEx, free return shipping inside the continental US.</p>' if c['tier']=='local' else f'<p>Mail-in from {c["city"]} is straightforward. Pull the motor in 20 minutes (two bolts + the wiring lugs), box it, and drop at any UPS or FedEx counter. Transit to our Texas shop is typically 2-4 business days. Once it lands, we rebuild and dyno it inside 4-7 days, then ship it back free. Most {c["city"]} customers have their upgraded motor back in their hands in 10-14 days total.</p>'}
+
+    <h2>Why {c['city']} customers choose White Lightning Motors</h2>
+    <ul>
+      <li>Charlie picks up the phone — no call centers, no chatbots</li>
+      <li>1-year warranty on every motor we ship</li>
+      <li>Free return shipping inside the continental US</li>
+      <li>5.0 stars across Google + Facebook · 11 reviews · zero complaints</li>
+      <li>Same pricing whether you are in {c['city']} or anywhere else in Texas</li>
+    </ul>
+
+    <h2>Ready to upgrade your {c['city']} golf cart?</h2>
+    <p>Call or text Charlie at <a href="tel:8328321993">{PHONE}</a> with your cart make, model, and year. He will quote you on the phone and tell you exactly what to expect. <a href="/how-it-works/">See the full mail-in process →</a></p>
+  </div>
+</section>
+''' + CTA_BAND
+    return {
+        "path":f"/service-area/{c['slug']}/",
+        "title":title,
+        "desc":desc,
+        "crumbs":crumbs,
+        "schema":schema,
+        "body":body,
+    }
+
+# Service area index
+city_cards = "".join(f'''<a class="product" href="/service-area/{c['slug']}/" style="text-decoration:none;color:inherit;display:block">
+  <span class="eyebrow" style="font-size:11px">{c['state']} · {c['tier'].replace('-',' ').title()}</span>
+  <h3 style="margin-top:10px">{c['city']}</h3>
+  <p>{c['distance']}</p>
+  <span style="color:var(--bolt);font-weight:700">Local page →</span>
+</a>''' for c in CITIES)
+
+SERVICE_AREA_BODY = f'''
+<section class="page-hero">
+  <div class="container">
+    <div class="crumbs"><a href="/">Home</a> / Service Areas</div>
+    <span class="eyebrow">Texas service areas</span>
+    <h1>Where we serve.</h1>
+    <p class="lede">Our shop is in the Houston metro, but we ship motors anywhere in the continental US. These city pages cover the Texas markets where we have the strongest customer base — local drop-off for Houston-area customers, mail-in for the rest.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-bolt" href="tel:8328321993">📞 {PHONE}</a>
+      <a class="btn btn-ghost" href="/contact/">Out of state? Get a quote →</a>
+    </div>
+  </div>
+</section>
+
+<section class="light">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Pick your city</span>
+      <h2>Texas cities we serve.</h2>
+      <p>Local drop-off in green, mail-in in blue. Either way, same shop, same warranty, same Charlie.</p>
+    </div>
+    <div class="products">{city_cards}</div>
+  </div>
+</section>
+''' + CTA_BAND
+
+PAGES.append({
+    "path":"/service-area/",
+    "title":"Service Areas — Texas Golf Cart Motor Upgrades | White Lightning Motors",
+    "desc":"Texas cities White Lightning Motors serves — Houston, Dallas, Austin, San Antonio, Galveston, The Woodlands, Katy, Sugar Land, Conroe. Local drop-off plus mail-in service nationwide.",
+    "crumbs":[("Home","/"),("Service Areas","/service-area/")],
+    "body":SERVICE_AREA_BODY,
+})
+for _c in CITIES:
+    PAGES.append(city_page(_c))
+
+# ============================================================
 # BLOG INDEX + ARTICLES
 # ============================================================
 ARTICLES = [
@@ -1744,6 +1970,19 @@ HERO_IMAGES = {
     "/blog/ezgo-vs-club-car-motor-upgrade/": ("/assets/photos/product-lineup.jpg","EZGO and Club Car golf cart performance motor lineup — White Lightning Motors"),
     "/blog/lithium-vs-lead-acid-golf-cart/": ("/assets/photos/product-lineup.jpg","Bolt Energy lithium golf cart battery alongside White Lightning Motors performance components"),
 }
+_CITY_HERO_ROT = [
+    ("/assets/photos/hero-cart.jpg","HAVOC black 4-seater golf cart upgraded by White Lightning Motors"),
+    ("/assets/photos/cart-glow.jpg","Lifted custom golf cart with underglow built by White Lightning Motors"),
+    ("/assets/photos/install-headon.jpg","White Lightning Motors high-output motor installed in a customer golf cart"),
+    ("/assets/photos/truck-side.jpg","White Lightning Motors wrapped Ford F-150 shop truck"),
+    ("/assets/photos/install-wide.jpg","White Lightning Motors high-output motor installed under a customer golf cart"),
+    ("/assets/photos/bolt-txt-kit.jpg","Bolt Energy lithium golf cart conversion kit — battery, BMS, charger, harnesses"),
+]
+for _i, _c in enumerate(CITIES):
+    HERO_IMAGES[f"/service-area/{_c['slug']}/"] = _CITY_HERO_ROT[_i % len(_CITY_HERO_ROT)]
+HERO_IMAGES["/service-area/"] = ("/assets/photos/truck-side.jpg","White Lightning Motors wrapped F-150 shop truck — serving customers across Texas")
+HERO_IMAGES["/services/"] = ("/assets/photos/bolt-txt-kit.jpg","White Lightning Motors services — performance motor upgrades, Bolt Energy lithium, Navitas controllers, AC kits")
+
 for _p in PAGES:
     img = HERO_IMAGES.get(_p["path"])
     if img:
