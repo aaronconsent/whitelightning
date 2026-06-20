@@ -32,8 +32,9 @@ NAV = [
     ("/reviews/", "Reviews"),
 ]
 
-def head(title, desc, path, extra_schema=None, crumbs=None):
+def head(title, desc, path, extra_schema=None, crumbs=None, og_image=None):
     canonical = f"{BASE}{path}"
+    og_image = og_image or f"{BASE}/assets/og-speed-demo.jpg"
     schema_blobs = []
     # Site-wide AutomotiveBusiness
     schema_blobs.append({
@@ -70,7 +71,13 @@ def head(title, desc, path, extra_schema=None, crumbs=None):
 <meta property="og:url" content="{canonical}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="White Lightning Motors">
+<meta property="og:image" content="{og_image}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{og_image}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 {schema_html}
 </head>
@@ -220,7 +227,7 @@ def inject_hero_image(body, img, alt):
     return patched
 
 def render(page):
-    html = head(page["title"], page["desc"], page["path"], page.get("schema"), page.get("crumbs"))
+    html = head(page["title"], page["desc"], page["path"], page.get("schema"), page.get("crumbs"), page.get("og_image"))
     html += header(page["path"])
     body = page["body"]
     if page.get("hero_image"):

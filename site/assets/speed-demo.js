@@ -111,13 +111,26 @@
                 <input type="text" name="cart" placeholder="Cart make / model / year (optional)">
                 <button type="submit" class="wlm-submit">⚡ Send me a quote</button>
                 <small>Or call now: <a href="tel:8328321993">832-832-1993</a></small>
+                <button type="button" class="wlm-skip" id="wlm-skip">No thanks — close</button>
               </form>
             </div>
             <div class="wlm-thanks" id="wlm-thanks">
               <div class="wlm-bolt-huge">⚡</div>
               <h2>You're in. Charlie will call within 5 minutes.</h2>
               <p>Keep an eye on your phone — 832-832-1993.</p>
-              <button class="wlm-start-btn" id="wlm-replay">↺ Run it again</button>
+              <div class="wlm-share">
+                <p class="wlm-share-label">Share the demo with a friend:</p>
+                <div class="wlm-share-buttons">
+                  <a class="wlm-share-btn wlm-share-tw" href="#" target="_blank" rel="noopener" data-share="twitter" aria-label="Share on X / Twitter">𝕏</a>
+                  <a class="wlm-share-btn wlm-share-fb" href="#" target="_blank" rel="noopener" data-share="facebook" aria-label="Share on Facebook">f</a>
+                  <a class="wlm-share-btn wlm-share-sms" href="#" data-share="sms" aria-label="Share via text message">📱</a>
+                  <button class="wlm-share-btn wlm-share-copy" id="wlm-copy" aria-label="Copy link">🔗 <span id="wlm-copy-text">Copy link</span></button>
+                </div>
+              </div>
+              <div class="wlm-thanks-actions">
+                <button class="wlm-start-btn" id="wlm-replay">↺ Run it again</button>
+                <button class="wlm-ghost-btn" id="wlm-thanks-close">Close</button>
+              </div>
             </div>
           </div>
         </div>
@@ -145,8 +158,13 @@
     overlay.querySelector('#wlm-close').addEventListener('click', close);
     overlay.querySelector('#wlm-start').addEventListener('click', start);
     overlay.querySelector('#wlm-replay').addEventListener('click', replay);
+    overlay.querySelector('#wlm-skip').addEventListener('click', close);
+    overlay.querySelector('#wlm-thanks-close').addEventListener('click', close);
+    overlay.querySelector('#wlm-copy').addEventListener('click', copyLink);
+    overlay.querySelectorAll('.wlm-share-btn[data-share]').forEach(b => b.addEventListener('click', onShare));
     els.form.addEventListener('submit', onSubmit);
     els.video.addEventListener('ended', () => showLeadForm());
+    document.addEventListener('keydown', onKey);
     // Drive HUD from the video clock — works even when tab is backgrounded
     els.video.addEventListener('timeupdate', updateHUDFromVideo);
     els.video.addEventListener('play', () => { raf = requestAnimationFrame(updateHUD); });
@@ -371,8 +389,52 @@
     try { localStorage.setItem(STORE_KEY, '1'); } catch(e){}
   }
 
+  function onKey(e) {
+    if (e.key === 'Escape' && overlay && overlay.classList.contains('on')) close();
+  }
+
+  function shareUrl() {
+    return `${location.origin}/?demo=1`;
+  }
+  const SHARE_TEXT = "Watch what 11 → 41 mph does to a golf cart — POV demo (with a 1946 time-travel twist) from White Lightning Motors.";
+
+  function onShare(e) {
+    e.preventDefault();
+    const platform = e.currentTarget.dataset.share;
+    const url = encodeURIComponent(shareUrl());
+    const text = encodeURIComponent(SHARE_TEXT);
+    let target;
+    if (platform === 'twitter')      target = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+    else if (platform === 'facebook') target = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    else if (platform === 'sms')      target = `sms:?&body=${text}%20${url}`;
+    if (target) window.open(target, '_blank', 'noopener');
+  }
+
+  function copyLink(e) {
+    e.preventDefault();
+    const url = shareUrl();
+    const label = overlay.querySelector('#wlm-copy-text');
+    const done = (ok) => {
+      label.textContent = ok ? 'Copied!' : 'Tap to copy';
+      setTimeout(() => label.textContent = 'Copy link', 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => done(true), () => done(false));
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = url; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(true); } catch(e2) { done(false); }
+      document.body.removeChild(ta);
+    }
+  }
+
   widget.addEventListener('click', open);
   try { if (localStorage.getItem(STORE_KEY)) widget.classList.add('seen'); } catch(e){}
+
+  // Auto-open if visitor arrived from a shared ?demo=1 link
+  if (/[?&]demo=1\b/.test(location.search)) {
+    setTimeout(open, 600);
+  }
 
   // First-visit attention pulse — 4-second loud burst before settling
   try {
