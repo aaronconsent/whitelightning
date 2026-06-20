@@ -373,4 +373,26 @@
 
   widget.addEventListener('click', open);
   try { if (localStorage.getItem(STORE_KEY)) widget.classList.add('seen'); } catch(e){}
+
+  // First-visit attention pulse — 4-second loud burst before settling
+  try {
+    const INTRO_KEY = 'wlm-speed-widget-introduced';
+    if (!localStorage.getItem(INTRO_KEY) && !localStorage.getItem(STORE_KEY)) {
+      // Wait a beat so page paints first
+      setTimeout(() => {
+        widget.classList.add('wlm-pulse-intro');
+        // Brief "nudge" tooltip
+        const nudge = document.createElement('span');
+        nudge.className = 'wlm-nudge';
+        nudge.textContent = '👈 Try this';
+        widget.appendChild(nudge);
+        setTimeout(() => {
+          widget.classList.remove('wlm-pulse-intro');
+          nudge.classList.add('out');
+          setTimeout(() => nudge.remove(), 600);
+          try { localStorage.setItem(INTRO_KEY, '1'); } catch(e){}
+        }, 4000);
+      }, 900);
+    }
+  } catch(e){}
 })();
