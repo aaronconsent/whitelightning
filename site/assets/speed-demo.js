@@ -26,9 +26,8 @@
   widget.setAttribute('aria-label', 'Feel the speed — interactive demo');
   widget.innerHTML = `
     <span class="wlm-speed-widget-inner">
-      <span class="wlm-bolt">⚡</span>
-      <span class="wlm-w-text">FEEL&nbsp;THE&nbsp;SPEED</span>
-      <span class="wlm-w-sub">▶ 21 sec demo</span>
+      <span class="wlm-bolt" aria-hidden="true">⚡</span>
+      <span class="wlm-w-text">Feel the Speed</span>
     </span>`;
   document.body.appendChild(widget);
 

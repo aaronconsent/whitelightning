@@ -447,36 +447,56 @@ footer.site .legal{border-top:1px solid var(--rule);padding-top:20px;display:fle
    SPEED DEMO WIDGET + FULL-SCREEN POV EXPERIENCE
    ===================================================== */
 
-/* --- Side widget --- */
+/* --- Side widget (desktop: side tab, mobile: corner pill) --- */
 .wlm-speed-widget{
   position:fixed;right:0;top:50%;transform:translateY(-50%);
   z-index:9000;cursor:pointer;
   background:linear-gradient(180deg,#00c2ff,#1a8bff);
   color:#001018;border:none;
-  padding:18px 10px;border-radius:14px 0 0 14px;
-  font:inherit;font-weight:900;letter-spacing:.18em;
-  box-shadow:0 18px 50px -10px rgba(0,194,255,.55), 0 0 0 1px rgba(255,255,255,.2) inset;
-  animation:wlmPulse 2.4s ease-in-out infinite;
-  transition:transform .2s ease, box-shadow .2s ease;
+  padding:14px 18px;border-radius:14px 0 0 14px;
+  font:inherit;font-weight:900;
+  box-shadow:0 18px 50px -10px rgba(0,194,255,.55), 0 0 0 1px rgba(255,255,255,.22) inset;
+  animation:wlmRing 1.8s ease-in-out infinite;
+  transition:box-shadow .2s ease;
 }
-.wlm-speed-widget:hover{transform:translateY(-50%) translateX(-3px) scale(1.04);box-shadow:0 24px 70px -10px rgba(0,194,255,.8)}
-.wlm-speed-widget.seen{animation:none;opacity:.85}
-.wlm-speed-widget-inner{display:flex;flex-direction:column;align-items:center;gap:6px}
-.wlm-speed-widget .wlm-bolt{font-size:22px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.6))}
+.wlm-speed-widget:hover{box-shadow:0 24px 70px -10px rgba(0,194,255,.85), 0 0 0 1px rgba(255,255,255,.4) inset}
+.wlm-speed-widget.seen{animation:none;opacity:.88}
+.wlm-speed-widget-inner{
+  display:flex;align-items:center;gap:10px;
+  animation:wlmHeartbeat 1.8s ease-in-out infinite;
+}
+.wlm-speed-widget:hover .wlm-speed-widget-inner{animation-play-state:paused;transform:scale(1.05)}
+.wlm-speed-widget .wlm-bolt{
+  font-size:20px;line-height:1;
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.7));
+}
 .wlm-speed-widget .wlm-w-text{
-  writing-mode:vertical-rl;transform:rotate(180deg);
-  font-size:13px;font-weight:900;text-transform:uppercase;
+  font-size:15px;font-weight:800;letter-spacing:.01em;white-space:nowrap;
 }
-.wlm-speed-widget .wlm-w-sub{font-size:9px;font-weight:700;opacity:.7;letter-spacing:.16em;writing-mode:vertical-rl;transform:rotate(180deg)}
-@keyframes wlmPulse{
-  0%,100%{box-shadow:0 18px 50px -10px rgba(0,194,255,.55), 0 0 0 0 rgba(0,194,255,.4)}
-  50%    {box-shadow:0 18px 50px -10px rgba(0,194,255,.55), 0 0 0 14px rgba(0,194,255,0)}
+@keyframes wlmRing{
+  0%,100%{box-shadow:0 18px 50px -10px rgba(0,194,255,.55), 0 0 0 0 rgba(0,194,255,.55), 0 0 0 1px rgba(255,255,255,.22) inset}
+  50%    {box-shadow:0 22px 60px -10px rgba(0,194,255,.75), 0 0 0 18px rgba(0,194,255,0), 0 0 0 1px rgba(255,255,255,.3) inset}
 }
+@keyframes wlmHeartbeat{
+  0%,100%{transform:scale(1)}
+  50%    {transform:scale(1.07)}
+}
+
+/* Mobile: smaller corner pill */
 @media (max-width:760px){
-  .wlm-speed-widget{top:auto;bottom:20px;right:20px;transform:none;border-radius:14px;padding:12px 14px;flex-direction:row}
-  .wlm-speed-widget-inner{flex-direction:row;gap:8px}
-  .wlm-speed-widget .wlm-w-text,.wlm-speed-widget .wlm-w-sub{writing-mode:initial;transform:none}
-  .wlm-speed-widget:hover{transform:translateY(-2px) scale(1.03)}
+  .wlm-speed-widget{
+    top:auto;bottom:18px;right:14px;
+    transform:none;
+    padding:9px 14px;border-radius:999px;
+  }
+  .wlm-speed-widget .wlm-bolt{font-size:15px}
+  .wlm-speed-widget .wlm-w-text{font-size:12.5px;letter-spacing:.02em}
+  .wlm-speed-widget-inner{gap:7px}
+}
+/* Tiny phones: icon + abbreviated label */
+@media (max-width:380px){
+  .wlm-speed-widget{padding:8px 12px}
+  .wlm-speed-widget .wlm-w-text{font-size:12px}
 }
 
 /* --- Overlay --- */
