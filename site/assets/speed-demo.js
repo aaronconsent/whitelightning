@@ -47,31 +47,44 @@
         </video>
         <div class="wlm-vignette"></div>
         <div class="wlm-flash" id="wlm-flash"></div>
-        <div class="wlm-dash">
-          <div class="wlm-dash-frame">
-            <svg class="wlm-gauge" viewBox="0 0 320 200" aria-hidden="true">
+        <div class="wlm-hud-panel" id="wlm-hud-panel">
+          <div class="wlm-hud-corner tl"></div>
+          <div class="wlm-hud-corner tr"></div>
+          <div class="wlm-hud-corner bl"></div>
+          <div class="wlm-hud-corner br"></div>
+
+          <div class="wlm-hud-row wlm-hud-speed-row">
+            <svg class="wlm-arc-mini" viewBox="0 0 100 60" aria-hidden="true">
               <defs>
                 <linearGradient id="wlmGaugeArc" x1="0" x2="1">
                   <stop offset="0" stop-color="#22c55e"/>
-                  <stop offset=".4" stop-color="#facc15"/>
-                  <stop offset=".7" stop-color="#f97316"/>
+                  <stop offset=".5" stop-color="#facc15"/>
                   <stop offset="1" stop-color="#ef4444"/>
                 </linearGradient>
               </defs>
-              <path d="M40 170 A 120 120 0 0 1 280 170" fill="none" stroke="rgba(0,0,0,.5)" stroke-width="18" stroke-linecap="round"/>
-              <path d="M40 170 A 120 120 0 0 1 280 170" fill="none" stroke="#1a1a22" stroke-width="14" stroke-linecap="round"/>
-              <path id="wlm-arc" d="M40 170 A 120 120 0 0 1 280 170" fill="none" stroke="url(#wlmGaugeArc)" stroke-width="12" stroke-linecap="round" stroke-dasharray="377" stroke-dashoffset="377"/>
-              <g stroke="#3a3f4d" stroke-width="2">
-                ${Array.from({length:9},(_,i)=>{const a=Math.PI*(1-i/8),r1=110,r2=128,x1=160+Math.cos(a)*r1,y1=170-Math.sin(a)*r1,x2=160+Math.cos(a)*r2,y2=170-Math.sin(a)*r2;return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`}).join('')}
-              </g>
-              <g id="wlm-needle" transform="rotate(-90 160 170)">
-                <line x1="160" y1="170" x2="160" y2="50" stroke="#fff" stroke-width="3"/>
-                <circle cx="160" cy="170" r="8" fill="#00c2ff" stroke="#fff" stroke-width="2"/>
+              <path d="M10 55 A 40 40 0 0 1 90 55" fill="none" stroke="rgba(0,194,255,.18)" stroke-width="5" stroke-linecap="round"/>
+              <path id="wlm-arc" d="M10 55 A 40 40 0 0 1 90 55" fill="none" stroke="url(#wlmGaugeArc)" stroke-width="5" stroke-linecap="round" stroke-dasharray="126" stroke-dashoffset="126"/>
+              <g id="wlm-needle" transform="rotate(-90 50 55)">
+                <line x1="50" y1="55" x2="50" y2="22" stroke="#fff" stroke-width="2.5"/>
+                <circle cx="50" cy="55" r="4" fill="#00c2ff" stroke="#fff" stroke-width="1.5"/>
               </g>
             </svg>
-            <div class="wlm-mph"><span id="wlm-mph">0</span><small>MPH</small></div>
-            <div class="wlm-status" id="wlm-status">READY</div>
+            <div class="wlm-mph-block">
+              <span id="wlm-mph" class="wlm-mph-num">0</span>
+              <small class="wlm-mph-unit">MPH</small>
+            </div>
           </div>
+
+          <div class="wlm-hud-divider"></div>
+
+          <div class="wlm-hud-row wlm-hud-year-row">
+            <div class="wlm-year-label">YEAR</div>
+            <div class="wlm-year-display"><span id="wlm-year">2026</span></div>
+          </div>
+
+          <div class="wlm-hud-divider"></div>
+
+          <div class="wlm-hud-status" id="wlm-status">▸ READY</div>
         </div>
         <div class="wlm-hud-top">
           <div class="wlm-brand-strip"><span class="wlm-bolt">⚡</span> WHITE LIGHTNING MOTORS</div>
@@ -118,6 +131,7 @@
       arc: overlay.querySelector('#wlm-arc'),
       needle: overlay.querySelector('#wlm-needle'),
       mph: overlay.querySelector('#wlm-mph'),
+      year: overlay.querySelector('#wlm-year'),
       status: overlay.querySelector('#wlm-status'),
       flash: overlay.querySelector('#wlm-flash'),
       startgate: overlay.querySelector('#wlm-startgate'),
@@ -126,7 +140,7 @@
       formWrap: overlay.querySelector('#wlm-form-wrap'),
       form: overlay.querySelector('#wlm-form'),
       confetti: overlay.querySelector('#wlm-confetti'),
-      dash: overlay.querySelector('.wlm-dash'),
+      hud: overlay.querySelector('#wlm-hud-panel'),
     };
 
     overlay.querySelector('#wlm-close').addEventListener('click', close);
@@ -147,6 +161,7 @@
   function paintHUD(t) {
     const speed = speedAt(t);
     els.mph.textContent = Math.round(speed);
+    els.year.textContent = yearAt(t);
     setArc(speed / UNLEASHED_TOP);
     setNeedle(speed, t);
     const status = statusAt(t);
@@ -166,8 +181,15 @@
     } else {
       els.stage.style.transform = '';
     }
-    if (t >= T.TIMETRAVEL) els.dash.classList.add('wlm-tt');
-    else els.dash.classList.remove('wlm-tt');
+    // HUD time-travel mode class
+    if (t >= T.TIMETRAVEL) els.hud.classList.add('wlm-tt');
+    else els.hud.classList.remove('wlm-tt');
+    // Spinning class during the active spin window
+    if (t >= T.TIMETRAVEL && t < T.TIMETRAVEL + YEAR_SPIN_DUR) {
+      els.hud.classList.add('wlm-year-spinning');
+    } else {
+      els.hud.classList.remove('wlm-year-spinning');
+    }
     if (t >= T.LEADFORM && !els.leadform.classList.contains('on')) showLeadForm();
   }
 
@@ -205,12 +227,21 @@
   function easeOutCubic(x){return 1 - Math.pow(1-x, 3)}
 
   function statusAt(t) {
-    if (t < T.STOCK_CAP)    return 'STOCK MOTOR';
-    if (t < T.SWAP)         return 'STOCK CEILING · 11 MPH';
+    if (t < T.STOCK_CAP)    return '▸ STOCK MOTOR';
+    if (t < T.SWAP)         return '▸ STOCK CEILING';
     if (t < T.APEX)         return '⚡ WHITE LIGHTNING ⚡';
-    if (t < T.TIMETRAVEL)   return 'UNLEASHED · 41 MPH';
-    if (t < T.LEADFORM)     return '1946 · YEAH, IT\'S THAT FAST';
+    if (t < T.TIMETRAVEL)   return '▸ UNLEASHED';
+    if (t < T.LEADFORM)     return '◆ 1946 · YEAH, IT\'S THAT FAST';
     return '';
+  }
+
+  const YEAR_SPIN_DUR = 1.6;
+  function yearAt(t) {
+    if (t < T.TIMETRAVEL) return 2026;
+    const r = Math.min(1, (t - T.TIMETRAVEL) / YEAR_SPIN_DUR);
+    // ease-out cubic for that "slot machine slowing" feel
+    const eased = 1 - Math.pow(1 - r, 3);
+    return Math.round(2026 - eased * 80);
   }
 
   function setNeedle(speed, t) {
@@ -220,14 +251,14 @@
       const ratio = Math.min(1, speed / top);
       deg = -90 + ratio * 180;
     } else {
-      // Time-travel scramble: spin needle
-      deg = -90 + (((t - T.TIMETRAVEL) * 720) % 360);
+      // Time-travel scramble: spin needle backward
+      deg = -90 - (((t - T.TIMETRAVEL) * 1080) % 360);
     }
-    els.needle.setAttribute('transform', `rotate(${deg} 160 170)`);
+    els.needle.setAttribute('transform', `rotate(${deg} 50 55)`);
   }
 
   function setArc(pct) {
-    const total = 377;
+    const total = 126; // mini-arc circumference
     els.arc.style.strokeDashoffset = total - total * Math.min(1, pct);
   }
 
@@ -249,9 +280,11 @@
     els.formWrap.style.display = '';
     // Reset HUD
     els.mph.textContent = '0';
+    els.year.textContent = '2026';
     setArc(0);
     setNeedle(0, 0);
-    els.status.textContent = 'READY';
+    els.status.textContent = '▸ READY';
+    els.hud.classList.remove('wlm-tt','wlm-year-spinning');
     thunderTriggered = false;
     // Pre-load
     els.video.load();
@@ -290,8 +323,10 @@
     els.formWrap.style.display = '';
     els.startgate.classList.add('on');
     els.mph.textContent = '0';
+    els.year.textContent = '2026';
     setArc(0); setNeedle(0, 0);
-    els.status.textContent = 'READY';
+    els.status.textContent = '▸ READY';
+    els.hud.classList.remove('wlm-tt','wlm-year-spinning');
     thunderTriggered = false;
   }
 

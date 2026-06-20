@@ -517,16 +517,100 @@ footer.site .legal{border-top:1px solid var(--rule);padding-top:20px;display:fle
   100%{opacity:0;transform:scale(2)}
 }
 
-/* --- Dashboard HUD (floats over video) --- */
-.wlm-dash{
-  position:absolute;left:50%;bottom:5%;transform:translateX(-50%);
-  width:min(380px, 80vw);z-index:4;
-  filter:drop-shadow(0 12px 40px rgba(0,0,0,.8));
+/* --- HUD panel (top-right, sci-fi cockpit style) --- */
+.wlm-hud-panel{
+  position:absolute;top:80px;right:24px;z-index:4;
+  width:280px;
+  background:linear-gradient(180deg, rgba(8,10,16,.78), rgba(8,10,16,.62));
+  border:1px solid rgba(0,194,255,.35);
+  border-radius:6px;
+  padding:14px 16px 12px;
+  font-family:'SF Mono','Menlo','Monaco',monospace;
+  color:#e3f3ff;
+  backdrop-filter:blur(8px) saturate(140%);
+  box-shadow:
+    0 0 0 1px rgba(0,194,255,.08),
+    0 18px 50px -12px rgba(0,194,255,.4),
+    inset 0 0 28px rgba(0,194,255,.06);
+  transition:border-color .3s ease, box-shadow .3s ease;
 }
-.wlm-dash.wlm-tt{animation:wlmTTPulse 1.2s ease-in-out infinite}
-@keyframes wlmTTPulse{
-  0%,100%{filter:drop-shadow(0 12px 40px rgba(0,194,255,.6))}
-  50%   {filter:drop-shadow(0 12px 60px rgba(255,200,90,.8))}
+.wlm-hud-panel::before{
+  content:"⚡ HUD";position:absolute;top:-9px;left:14px;
+  background:#080a10;padding:0 8px;
+  font-size:10px;letter-spacing:.22em;color:#00c2ff;font-weight:900;
+}
+/* Corner brackets — sci-fi accent */
+.wlm-hud-corner{position:absolute;width:10px;height:10px;border:1.5px solid #00c2ff;pointer-events:none}
+.wlm-hud-corner.tl{top:-1px;left:-1px;border-right:none;border-bottom:none}
+.wlm-hud-corner.tr{top:-1px;right:-1px;border-left:none;border-bottom:none}
+.wlm-hud-corner.bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
+.wlm-hud-corner.br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+.wlm-hud-row{display:flex;align-items:center;gap:14px}
+.wlm-hud-speed-row{justify-content:space-between}
+.wlm-arc-mini{width:80px;height:48px;flex-shrink:0;filter:drop-shadow(0 0 4px rgba(0,194,255,.5))}
+.wlm-mph-block{text-align:right;line-height:1}
+.wlm-mph-num{
+  font-size:42px;font-weight:900;color:#fff;
+  font-family:'SF Mono','Menlo','Monaco',monospace;
+  letter-spacing:-.02em;
+  text-shadow:0 0 18px rgba(0,194,255,.6);
+  display:inline-block;min-width:64px;text-align:right;
+}
+.wlm-mph-unit{display:block;font-size:10px;letter-spacing:.32em;color:#00c2ff;margin-top:4px;font-weight:700}
+
+.wlm-hud-divider{
+  height:1px;margin:10px -4px;
+  background:linear-gradient(90deg,transparent,rgba(0,194,255,.35),transparent);
+}
+
+.wlm-hud-year-row{justify-content:space-between}
+.wlm-year-label{font-size:11px;letter-spacing:.32em;color:#7aa8c5;font-weight:700}
+.wlm-year-display{
+  font-size:32px;font-weight:900;color:#fff;
+  font-family:'SF Mono','Menlo','Monaco',monospace;
+  letter-spacing:.02em;
+  text-shadow:0 0 16px rgba(0,194,255,.55);
+  min-width:90px;text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.wlm-hud-status{
+  font-size:11px;letter-spacing:.22em;color:#a9c8df;
+  font-weight:700;text-align:left;
+  text-transform:uppercase;
+}
+
+/* --- Time-travel mode: HUD shifts warm gold --- */
+.wlm-hud-panel.wlm-tt{
+  border-color:rgba(255,200,90,.7);
+  box-shadow:
+    0 0 0 1px rgba(255,200,90,.18),
+    0 18px 50px -12px rgba(255,200,90,.55),
+    inset 0 0 32px rgba(255,200,90,.1);
+  animation:wlmTTBreathe 1.2s ease-in-out infinite;
+}
+.wlm-hud-panel.wlm-tt .wlm-hud-corner{border-color:#ffc85a}
+.wlm-hud-panel.wlm-tt::before{color:#ffc85a;content:"◆ TIME"}
+.wlm-hud-panel.wlm-tt .wlm-year-display{color:#ffd97a;text-shadow:0 0 22px rgba(255,200,90,.8)}
+.wlm-hud-panel.wlm-tt .wlm-year-label,
+.wlm-hud-panel.wlm-tt .wlm-mph-unit{color:#ffc85a}
+.wlm-hud-panel.wlm-tt .wlm-hud-divider{background:linear-gradient(90deg,transparent,rgba(255,200,90,.4),transparent)}
+@keyframes wlmTTBreathe{
+  0%,100%{box-shadow:0 0 0 1px rgba(255,200,90,.18), 0 18px 50px -12px rgba(255,200,90,.55), inset 0 0 32px rgba(255,200,90,.1)}
+  50%   {box-shadow:0 0 0 1px rgba(255,200,90,.30), 0 18px 70px -12px rgba(255,200,90,.85), inset 0 0 50px rgba(255,200,90,.18)}
+}
+
+/* Year slot-machine glitch effect while actively spinning */
+.wlm-hud-panel.wlm-year-spinning .wlm-year-display{
+  animation:wlmGlitch .08s linear infinite;
+}
+@keyframes wlmGlitch{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-2px)}
+}
+
+@media (max-width:760px){
+  .wlm-hud-panel{top:auto;bottom:24px;right:14px;left:14px;width:auto}
 }
 .wlm-dash-frame{
   background:linear-gradient(180deg,rgba(12,13,19,.92),rgba(6,7,11,.96));
